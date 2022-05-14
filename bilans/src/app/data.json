@@ -1,0 +1,28 @@
+{
+    "acoount_balance": [
+        {
+            "id": 1,
+            "balance_sheet_account": [
+                {
+                    "id": 1,
+                    "name": "name",
+                    "saldo":12,
+                    "debit": [
+                        {
+                            "id": 2,
+                            "timeStamp": 12141,
+                            "amount": 5
+                        }
+                    ],
+                    "credit": [
+                        {
+                            "id": 4,
+                            "timeStamp": 3424,
+                            "amount": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
