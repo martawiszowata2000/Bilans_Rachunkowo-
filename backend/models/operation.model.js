@@ -3,10 +3,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const operationSchema = new Schema({
-    amount: {
-        type: Number,
-        required: true
-    }
+    operationType: { type: String, required: true },
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    amount: { type: Number, required: true }
 }, {
     timestamps: true
 })

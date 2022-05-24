@@ -1,17 +1,33 @@
-export class AccountBalance { //bilans konta
+export class Balance { //bilans konta
     constructor(
-        id?: number,
-        balance_sheet_account?: BalanceSheetAccount[]
+        id: string,
+        name: string,
+        sumActive: number,
+        sumPassive: number,
+        currency: string,
+        accountsActive: BalanceItem,
+        accountsPassive: BalanceItem
         ) {}
 }
 
-export class BalanceSheetAccount { //konto bilansowe
+export class Account { //konto bilansowe
     constructor(
         id: number,
+        path: string,
         name: string,
-        saldo?: number,
+        balance: number,
         debit?: BalanceSheetOperation[],
         credit?: BalanceSheetOperation[]
+        ) {}
+}
+
+export class BalanceItem{ //konto bilansowe
+    constructor(
+        id: string,
+        path: string,
+        name: string,
+        account: Account,
+        list?: BalanceItem
         ) {}
 }
 
@@ -29,3 +45,9 @@ export enum BalanceOperation { //typu operacji bilansowych
     active_passive_up = 'active-passive_up',
     active_passive_down = 'active-passive_down'
 }
+
+export interface Operation {
+        name: string
+        list?: Array<Operation>
+}
+

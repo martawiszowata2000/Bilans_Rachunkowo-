@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Operation } from '../model';
 
 @Component({
   selector: 'app-main-layout',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainLayoutComponent implements OnInit {
 
+  opList: Array<Operation> = []
   constructor() { }
 
   ngOnInit(): void {
+
   }
+
+
+
+
 
 }

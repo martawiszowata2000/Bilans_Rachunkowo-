@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Aktywa trwałe",
+    "path" : "1",
+    "list" : [
+        { "name" : "Wartości niematerialne i prawne",
+          "path" : "1.1",
+          "list" : [
+              { "name" : "Koszty zakończonych prac rozwojowych",
+                "path" : "1.1.1" },
+              { "name" : "Wartość firmy",
+                "path" : "1.1.2" },
+              { "name" : "Inne wartości niematerialne i prawne",
+                "path" : "1.1.3" },
+              { "name" : "Zaliczki na wartości niematerialne i prawne",
+                "path" : "1.1.4" }
+            ]
+        },
+        { "name" : "Rzeczowe aktywa trwałe",
+          "path" : "1.2",
+          "list" : [
+            { "name" : "Środki trwałe",
+              "path" : "1.2.1" },
+            { "name" : "Środki trwałe w budowie",
+              "path" : "1.2.2" },
+            { "name" : "Zaliczki na środki trwałe w budowie",
+              "path" : "1.2.3" }
+          ]
+        },
+        { "name" : "Należności długoterminowe",
+          "path" : "1.3",
+          "list" : [
+              { "name" : "Od jednostek powiązanych",
+                "path" :"1.3.1" }
+            ]
+        }
+    ]
+  },
+  {
+    "name": "Aktywa obrotowe",
+    "path" : "2"
+  }
+
+]
