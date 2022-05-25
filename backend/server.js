@@ -23,12 +23,10 @@ connection.once('open', () => {
 const balanceListRouter = require('./routes/balance-list')
 const accountsRouter = require('./routes/accounts')
 const operationRouter = require('./routes/operations')
-const balanceItemRouter = require('./routes/balance-items')
 
 app.use('/balanceList', balanceListRouter)
 app.use('/accounts', accountsRouter)
 app.use('/operations', operationRouter)
-app.use('/balance-items', balanceItemRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
