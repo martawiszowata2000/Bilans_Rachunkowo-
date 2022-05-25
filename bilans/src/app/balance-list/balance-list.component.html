@@ -1,0 +1,8 @@
+<ul lass="list-group list-group-flush">
+    <li *ngFor="let balance of balanceList" class="list-group-item">
+        <a [routerLink]="getPath(balance)"
+            class="text-decoration-none">
+            {{balance.name}}
+        </a>
+    </li>
+</ul>

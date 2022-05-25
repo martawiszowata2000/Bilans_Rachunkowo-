@@ -9,8 +9,6 @@ const AccountSchema = new Schema({ //konto bilansowe
     balance: { type: Number, default: 0 },
     debit: { type: [Schema.Types.Operation], default: [] },
     credit: { type: [Schema.Types.Operation], default: [] }
-    // debit: { type: [BalanceSheetOperation] },
-    // credit: { type: [BalanceSheetOperation] }
 }, {
     timestamps: true
 })

@@ -1,0 +1,44 @@
+<p>--dane jednostki--</p>
+<h1>Bilans</h1>
+<p class="lead">Sporządzony na dzień ....</p>
+<p>Jednostka obliczeniowa: {{ getCurrency() }}</p>
+<div class="container-fluid">
+    <div class="row">
+        <!-- AKTYWA -->
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Aktywa</th>
+                    <th scope="col">Stan na dzień kończący</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let account of getActiveAccounts()">
+                    <th scope="row">{{ account.path }}</th>
+                    <td>{{ account.name }}</td>
+                    <td>{{ account.balance }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <!-- PASYWA -->
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Pasywa</th>
+                    <th scope="col">Stan na dzień kończący</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let account of getPassiveAccounts()">
+                    <th scope="row">{{ account.path }}</th>
+                    <td>{{ account.name }}</td>
+                    <td>{{ account.balance }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

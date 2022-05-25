@@ -2,6 +2,7 @@ const router = require('express').Router()
 const Balance = require('../models/balance.model')
 const Account = require('../models/account.model')
 const jsonActive = require('../data/activeOp.json');
+const jsonPassive = require('../data/passiveOp.json');
 
 router.route('/').get((req, res) => {
     Balance.find()
@@ -18,39 +19,27 @@ router.route('/:balanceId').get((req, res) => {
 router.route('/add').post((req, res) => {
     const name = req.body.name
     const defaultSum = 0
-    const defaultAccounts = prepareAccounts(jsonActive)
-    console.log(defaultAccounts)
+    const defaultOperations = {}
     const currency = req.body.currency
-    // prepareAccounts(jsonActive)
-    const newBalance = new Balance({name, defaultSum, defaultSum, currency, defaultAccounts, defaultAccounts})
-    // defaultAccounts.forEach(obj => newBalance.list.push(obj))
-    for (const obj of defaultAccounts) {
-       // newBalance.accountsActive.push(obj)
+    const newBalance = new Balance({name, defaultSum, defaultSum, currency})
+
+    for (const el of jsonActive) {
+        const path = el.path
+        const name = el.name
+        const account = new Account({path, name, defaultSum, defaultOperations, defaultOperations})
+        account.save()
+        newBalance.accountsActive.push(account)
     }
-    // console.log(defaultAccounts)
-    // console.log(newBalance)
+    for (const el of jsonPassive) {
+        const path = el.path
+        const name = el.name
+        const account = new Account({path, name, defaultSum, defaultOperations, defaultOperations})
+        account.save()
+        newBalance.accountsPassive.push(account)
+    }
     newBalance.save()
         .then(() => res.json('Balance added!'))
         .catch(err => res.status(400).json('Error: ' + err))
 })
-
-function prepareAccounts(json) {
-    // console.log(json.values)
-    const list = []
-    const defaultSum = 0
-    const defaultAccounts = []
-    for (const el of json) {
-        const path = el.path
-        const name = el.name
-        const account = new Account({path, name, defaultSum, defaultAccounts, defaultAccounts})
-        account.save()
-        if(el.list) {
-           // balanceItem.list.push(prepareAccounts(el.list))
-        }
-       // list.push(balanceItem)
-    }
-    // console.log(list)
-    return list
-}
 
 module.exports = router

@@ -5,9 +5,19 @@ export class Balance { //bilans konta
         sumActive: number,
         sumPassive: number,
         currency: string,
-        accountsActive: BalanceItem,
-        accountsPassive: BalanceItem
+        accountsActive: Account[],
+        accountsPassive: Account[]
         ) {}
+}
+
+export interface Balance { //bilans konta
+    id: string,
+    name: string,
+    sumActive: number,
+    sumPassive: number,
+    currency: string,
+    accountsActive: Account[],
+    accountsPassive: Account[]
 }
 
 export class Account { //konto bilansowe
@@ -19,6 +29,15 @@ export class Account { //konto bilansowe
         debit?: BalanceSheetOperation[],
         credit?: BalanceSheetOperation[]
         ) {}
+}
+
+export interface Account { //konto bilansowe
+    id: number,
+    path: string,
+    name: string,
+    balance: number,
+    debit?: BalanceSheetOperation[],
+    credit?: BalanceSheetOperation[]
 }
 
 export class BalanceItem{ //konto bilansowe
