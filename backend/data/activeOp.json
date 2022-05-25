@@ -1,44 +1,305 @@
 [
   {
     "name": "Aktywa trwałe",
-    "path" : "1",
     "list" : [
-        { "name" : "Wartości niematerialne i prawne",
-          "path" : "1.1",
+        {
+          "name" : "Wartości niematerialne i prawne",
           "list" : [
-              { "name" : "Koszty zakończonych prac rozwojowych",
-                "path" : "1.1.1" },
-              { "name" : "Wartość firmy",
-                "path" : "1.1.2" },
-              { "name" : "Inne wartości niematerialne i prawne",
-                "path" : "1.1.3" },
-              { "name" : "Zaliczki na wartości niematerialne i prawne",
-                "path" : "1.1.4" }
+              {
+                "name" : "Koszty zakończonych prac rozwojowych"
+              },
+              {
+                "name" : "Wartość firmy"
+              },
+              {
+                "name" : "Inne wartości niematerialne i prawne"
+              },
+              {
+                "name" : "Zaliczki na wartości niematerialne i prawne"
+              }
             ]
         },
         { "name" : "Rzeczowe aktywa trwałe",
-          "path" : "1.2",
           "list" : [
-            { "name" : "Środki trwałe",
-              "path" : "1.2.1" },
-            { "name" : "Środki trwałe w budowie",
-              "path" : "1.2.2" },
-            { "name" : "Zaliczki na środki trwałe w budowie",
-              "path" : "1.2.3" }
+            {
+              "name" : "Środki trwałe",
+              "list" : [
+                {
+                  "name" : "grunty (w tym prawo użytkowania wieczystego gruntu)"
+                },
+                {
+                  "name" : "budynki, lokale, prawa do lokali i obiekty inżynierii lądowej i wodnej"
+                },
+                {
+                  "name" : "środki transportu"
+                },
+                {
+                  "name" : "inne środki trwałe"
+                }
+              ]},
+            {
+              "name": "Środki trwałe w budowie"
+            },
+            {
+              "name" : "Zaliczki na środki trwałe w budowie"
+            }
           ]
         },
         { "name" : "Należności długoterminowe",
-          "path" : "1.3",
           "list" : [
-              { "name" : "Od jednostek powiązanych",
-                "path" :"1.3.1" }
+              {
+                "name" : "Od jednostek powiązanych"
+               },
+              {
+                "name" : "Od pozostałych jednostek, w których jednostka posiada zaangażowanie w kapitale"
+              },
+              {
+                "name" : "Od pozostałych jednostek"
+              }
             ]
-        }
+        },
+        { "name" : "Inwestycje długoterminowe",
+          "list" : [
+            {
+              "name" : "Nieruchomości"
+             },
+            {
+              "name" : "Wartości niematerialne i prawne"
+            },
+            {
+              "name" : "Długoterminowe aktywa finansowe",
+              "list" : [
+                {
+                  "name" : "w jednostkach powiązanych",
+                  "list" : [
+                    {
+                      "name" : "udzialy lub akcje"
+                    },
+                    {
+                      "name" : "inne papiery wartościowe"
+                    },
+                    {
+                      "name" : "udzielone pożyczki"
+                    },
+                    {
+                      "name" : "inne dlugoterminowe aktywa finansowe"
+                    }
+                  ]
+                },
+                {
+                  "name" : "w pozostałych jednostkach, w których jednostka posiada zaangażowanie w kapitale",
+                  "list" : [
+                    {
+                      "name" : "udziały lub akcje"
+                    },
+                    {
+                      "name" : "inne papiery wartościowe"
+                    },
+                    {
+                      "name" : "udzielone pożyczki"
+                    },
+                    {
+                      "name" : "inne długoterminowe aktywa finansowe"
+                    }
+                  ]
+                },
+                {
+                  "name" : "w pozostałych jednostkach",
+                  "list" : [
+                    {
+                      "name" : "udziały lub akcje"
+                    },
+                    {
+                      "name" : "inne papiery wartościowe"
+                    },
+                    {
+                      "name" : "udzielone pożyczki"
+                    },
+                    {
+                      "name" : "inne długoterminowe aktywa finansowe"
+                    }
+                  ]
+                },
+                {
+                  "name" : "Inne inwestycje długoterminowe"
+                }
+              ]}
+          ]
+        },
+      {
+        "name" : "Długoterminowe rozliczenia międzyokresowe",
+        "list" : [
+          {
+            "name" : "Aktywa z tytułu odroczonego podatku dochodowego"
+          },
+          {
+            "name" : "Inne rozliczenia międzyokresowe"
+          }
+        ]
+      }
     ]
   },
   {
-    "name": "Aktywa obrotowe",
-    "path" : "2"
+    "name" : "Aktywa obrotowe",
+    "list" : [
+      {
+        "name" : "Zapasy",
+        "list" : [
+          {
+            "name" : "Materiały"
+          },
+          {
+            "name" : "Półprodukty i produkty w toku"
+          },
+          {
+            "name" : "Produkty gotowe"
+          },
+          {
+            "name" : "Towary"
+          },
+          {
+            "name" : "Zaliczki na dostawy i usługi"
+          }
+        ]
+      },
+      {
+        "name" : "Należności krótkoterminowe",
+        "list" : [
+          {
+            "name" : "Należności od jednostek powiązanych",
+            "list" : [
+              {
+                "name" : "z tytułu dostaw i usług, o okresie spłaty",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          },
+          {
+            "name" : "Należności od pozostałych jednostek, w których jednostka posiada zaangażowanie w kapitale",
+            "list" : [
+              {
+                "name" : "z tytułu dostaw i usług, o okresie spłaty",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          },
+          {
+            "name" : "Należności od pozostałych jednostek",
+            "list" : [
+              {
+                "name" : "z tytułu dostaw i usług, o okresie spłaty",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "z tytułu podatków, dotacji, ceł, ubezpieczeń społecznych i zdrowotnych oraz innych tytułów publicznoprawnych"
+              },
+              {
+                "name" : "inne"
+              },
+              {
+                "name" : "dochodzone na drodze sądowej"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name" : "Inwestycje krótkoterminowe",
+        "list" : [
+          {
+            "name" : "Krótkoterminowe aktywa finansowe",
+            "list" : [
+              {
+                "name" : "w jednostkach powiązanych",
+                "list" : [
+                  {
+                    "name" : "udzialy lub akcje"
+                  },
+                  {
+                    "name" : "inne papiery wartościowe"
+                  },
+                  {
+                    "name" : "udzielone pożyczki"
+                  },
+                  {
+                    "name" : "inne krótkoterminowe aktywa finansowe"
+                  }
+                ]
+              },
+              {
+                "name" : "w pozostałych jednostkach",
+                "list" : [
+                  {
+                    "name" : "udziały lub akcje"
+                  },
+                  {
+                    "name" : "inne papiery wartościowe"
+                  },
+                  {
+                    "name" : "udzielone pożyczki"
+                  },
+                  {
+                    "name" : "inne krótkoterminowe aktywa finansowe"
+                  }
+                ]
+              },
+              {
+                "name" : "środki pieniężne i inne aktywa pieniężne",
+                "list" : [
+                  {
+                    "name" : "środki pieniężne w kasie i na rachunkach"
+                  },
+                  {
+                    "name" : "inne środki pieniężne"
+                  },
+                  {
+                    "name" : "inne aktywa pieniężne"
+                  }
+                ]
+              },
+              {
+                "name" : "Inne inwestycje krótkoterminowe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name" : "Krótkoterminowe rozliczenia międzyokresowe"
+      }
+    ]
+  },
+  {
+    "name" : "Należne wpłaty na kapitał (fundusz) podstawowy"
+  },
+  {
+    "name" : "Udziały (akcje) własne"
   }
-
 ]

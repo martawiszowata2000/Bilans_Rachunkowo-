@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  ATLAS_URI: 'mongodb+srv://magda:magda@cluster0.nsgwq.mongodb.net/?retryWrites=true&w=majority'
 };
 
 /*

@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const Balance = require('../models/balance.model')
-const BalanceItem = require('../models/balance-item.model')
 const Account = require('../models/account.model')
 const jsonActive = require('../data/activeOp.json');
 
@@ -26,7 +25,7 @@ router.route('/add').post((req, res) => {
     const newBalance = new Balance({name, defaultSum, defaultSum, currency, defaultAccounts, defaultAccounts})
     // defaultAccounts.forEach(obj => newBalance.list.push(obj))
     for (const obj of defaultAccounts) {
-        newBalance.accountsActive.push(obj)
+       // newBalance.accountsActive.push(obj)
     }
     // console.log(defaultAccounts)
     // console.log(newBalance)
@@ -45,12 +44,10 @@ function prepareAccounts(json) {
         const name = el.name
         const account = new Account({path, name, defaultSum, defaultAccounts, defaultAccounts})
         account.save()
-        const balanceItem = new BalanceItem({path, name, account})
-        balanceItem.save()
         if(el.list) {
-            balanceItem.list.push(prepareAccounts(el.list))
+           // balanceItem.list.push(prepareAccounts(el.list))
         }
-        list.push(balanceItem)
+       // list.push(balanceItem)
     }
     // console.log(list)
     return list

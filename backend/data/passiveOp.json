@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Kapitał (fundusz) własny",
+    "list" : [
+        {
+          "name" : "Kapitał (fundusz) podstawowy"
+        },
+        {
+          "name" : "Kapitał (fundusz) zapasowy",
+          "list" : [
+            {
+              "name" : "nadwyżka wartości sprzedaży (wartości emisyjnej) nad wartością nominalną udziałów (akcji)"
+            }
+          ]
+        },
+        {
+          "name" : "Kapitał (fundusz) z aktualizacji wyceny",
+          "list" : [
+            {
+              "name" : "z tytułu aktualizacji wartości godziwej"
+            }
+          ]
+        },
+        {
+          "name" : "Pozostałe kapitały (fundusze) rezerwowe",
+          "list" : [
+            {
+              "name" : "tworzone zgodnie z umową (statutem) spółki"
+            },
+            {
+              "name" : "udziały (akcje) własne"
+            }
+          ]
+        },
+        {
+          "name" : "Zysk (strata) z lat ubiegłych"
+        },
+        {
+          "name" : "Zysk (strata) netto"
+        },
+        {
+          "name" : "Odpisy z zysku netto w ciągu roku obrotowego (wielkość ujemna)"
+        }
+
+    ]
+  },
+  {
+    "name" : "Zobowiązania i rezerwy na zobowiązania",
+    "list" : [
+      {
+        "name" : "Rezerwy na zobowiązania",
+        "list" : [
+          {
+            "name" : "Rezerwa z tytułu odroczonego podatku dochodowego"
+          },
+          {
+            "name" : "Rezerwa na świadczenia emerytalne i podobne",
+            "list" : [
+              {
+                "name" : "długoterminowa"
+              },
+              {
+                "name" : "krótkoterminowa"
+              }
+            ]
+          },
+          {
+            "name" : "Pozostałe rezerwy",
+            "list" : [
+              {
+                "name" : "długoterminowe"
+              },
+              {
+                "name" : "krótkoterminowe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name" : "Zobowiązania długoterminowe",
+        "list" : [
+          {
+            "name" : "Wobec jednostek powiązanych"
+          },
+          {
+            "name" : "Wobec pozostałych jednostek, w których jednostka posiada zaangażowanie w kapitale"
+          },
+          {
+            "name" : "Wobec pozostałych jednostek",
+            "list" : [
+              {
+                "name" : "kredyty i pożyczki"
+              },
+              {
+                "name" : "z tytułu emisji dłużnych papierów wartościowych"
+              },
+              {
+                "name" : "inne zobowiązania finansowe"
+              },
+              {
+                "name" : "zobowiązania wekslowe"
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name" : "Zobowiązania krótkoterminowe",
+        "list" : [
+          {
+            "name" : "Zobowiązania wobec jednostek powiązanych",
+            "list" : [
+              {
+                "name" : "z tytułu dostaw i usług, o okresie wymagalności",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          },
+          {
+            "name" : "Zobowiązania wobec pozostałych jednostek, w którch jednostka posiada zaangażowanie w kapitale",
+            "list" : [
+              {
+                "name" : "z tytułu dostaw i usług, o okresie wymagalności",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          },
+          {
+            "name" : "Zobowiązania wobec pozostałych jednostek",
+            "list" : [
+              {
+                "name" : "kredyty i pożyczki"
+              },
+              {
+                "name" : "z tytułu emisji dłużnych papierów wartościowych"
+              },
+              {
+                "name" : "inne zobowiązania finansowe"
+              },
+              {
+                "name" : "z tytułu dostaw i usług, o okresie wymagalności",
+                "list" : [
+                  {
+                    "name" : "do 12 miesięcy"
+                  },
+                  {
+                    "name" : "powyżej 12 miesięcy"
+                  }
+                ]
+              },
+              {
+                "name" : "zaliczki otrzymane na dostawy i usługi"
+              },
+              {
+                "name" : "zobowiązania wekslowe"
+              },
+              {
+                "name" : "z tytułu podatków, ceł, ubezpieczeń społecznych i ubezpieczeń zdrowotnych oraz innych tytułów publicznoprawych"
+              },
+              {
+                "name" : "z tytułu wynagrodzeń"
+              },
+              {
+                "name" : "inne"
+              }
+            ]
+          },
+          {
+            "name" : "Fundusze specjalne"
+          }
+        ]
+      },
+      {
+        "name" : "Rozliczenia międzyokresowe",
+        "list" : [
+          {
+            "name" : "Ujemna wartość firmy"
+          },
+          {
+            "name" : "Inne rozliczenia międzyokresowe",
+            "list" : [
+              {
+                "name" : "długoterminowe"
+              },
+              {
+                "name" : "krótkoterminowe"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

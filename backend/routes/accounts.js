@@ -14,6 +14,7 @@ router.route('/:accountId').get((req, res) => {
 })
 
     // nie mozna tworzyc konta z poziomu fornta nie? stworzymy wszystkie przy tworzeniu bilansu nie?
+    // tak
 // router.route('/add').post((req, res) => {
 //     const name = req.body.name
 

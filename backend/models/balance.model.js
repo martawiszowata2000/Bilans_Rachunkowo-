@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const BalanceItem = require('./balance-item.model')
+const Account = require('./account.model')
 
 const Schema = mongoose.Schema
 
@@ -8,8 +8,8 @@ const balanceSchema = new Schema({
     sumActive: { type: Number, default: 0 }, // suma aktywów
     sumPassive: { type: Number, default: 0 }, // suma pasywów
     currency: { type: String, required: true },
-    accountsActive: { type: [Schema.Types.BalanceItem], required: true },  //lista kont aktywów
-    accountsPassive: { type: [Schema.Types.BalanceItem], required: true }  //lista kont pasywów
+    accountsActive: { type: [Schema.Types.Account], required: true },  //lista kont aktywów
+    accountsPassive: { type: [Schema.Types.Account], required: true }  //lista kont pasywów
 })
 
 const Balance = mongoose.model('Balance', balanceSchema)
