@@ -8,19 +8,23 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BalanceComponent } from './balance/balance.component';
 import { RouterModule } from '@angular/router';
+import { AddOperationComponent } from './add-operation/add-operation.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     BalanceListComponent,
     AccountBalanceComponent,
     MainLayoutComponent,
-    BalanceComponent
+    BalanceComponent,
+    AddOperationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

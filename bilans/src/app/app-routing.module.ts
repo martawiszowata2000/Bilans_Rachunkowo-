@@ -4,17 +4,14 @@ import { BalanceListComponent } from './balance-list/balance-list.component';
 import { AccountBalanceComponent } from './account-balance/account-balance.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { BalanceComponent } from './balance/balance.component';
+import { AddOperationComponent } from './add-operation/add-operation.component';
 
 const routes: Routes = [
-  { path: '', redirectTo:'home/list', pathMatch: 'full'},
-  { path: 'home', component: MainLayoutComponent,
-    children: [
-      { path: 'list', component: BalanceListComponent },
-      { path: 'balance/:balanceId', component: BalanceComponent },
-      { path: 'account_balance/:ABid', component: AccountBalanceComponent },
-    ] 
-  }
-
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  { path: 'list', component: BalanceListComponent },
+  { path: 'balance/:balanceId', component: BalanceComponent },
+  { path: 'balance/:balanceId/newOperation', component: AddOperationComponent },
+  { path: 'balance/:balanceId/account/:accountId', component: AccountBalanceComponent },
 ];
 
 @NgModule({

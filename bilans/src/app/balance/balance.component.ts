@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Balance } from '../model';
+import { Account, Balance } from '../model';
 import { DataService } from '../services/data.service';
 import { switchMap, tap } from 'rxjs';
 
@@ -41,5 +41,9 @@ export class BalanceComponent implements OnInit {
   getPassiveAccounts() {
     // console.log(this.balance?.accountsPassive)
     return this.balance?.accountsPassive
+  }
+
+  getAccountPath(account: Account) {
+    return `./account/${account['_id']}`
   }
 }

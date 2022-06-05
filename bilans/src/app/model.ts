@@ -26,8 +26,8 @@ export class Account { //konto bilansowe
         path: string,
         name: string,
         balance: number,
-        debit?: BalanceSheetOperation[],
-        credit?: BalanceSheetOperation[]
+        debit?: Operation[],
+        credit?: Operation[]
         ) {}
 }
 
@@ -36,8 +36,8 @@ export interface Account { //konto bilansowe
     path: string,
     name: string,
     balance: number,
-    debit?: BalanceSheetOperation[],
-    credit?: BalanceSheetOperation[]
+    debit?: Operation[],
+    credit?: Operation[]
 }
 
 export class BalanceItem{ //konto bilansowe
@@ -50,23 +50,23 @@ export class BalanceItem{ //konto bilansowe
         ) {}
 }
 
-export class BalanceSheetOperation { //operacja bilansowa
+export class Operation { //operacja bilansowa
     constructor(
         id: number,
+        type: string,
         timeStamp: Date,
-        amount: number
+        amount: number,
+        from: string,
+        to: string
     ) {}
 }
-
-export enum BalanceOperation { //typu operacji bilansowych
-    active = 'active',
-    passive = 'passive',
-    active_passive_up = 'active-passive_up',
-    active_passive_down = 'active-passive_down'
-}
-
 export interface Operation {
-        name: string
-        list?: Array<Operation>
+    id: number,
+    type: string,
+    timeStamp: Date,
+    amount: number,
+    from: string,
+    to: string
 }
+
 

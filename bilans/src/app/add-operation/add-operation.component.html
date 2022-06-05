@@ -1,0 +1,48 @@
+<h1>Nowa operacja</h1>
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <select class="form-select" (change)="selectType($event)">
+        <option selected value="" disabled>Wybierz typ operacji</option>
+        <option *ngFor="let type of getTypesEntries()" 
+            [selected]="type[0] === operationType"
+            [value]="type[0]">{{type[1]}}</option>
+    </select>
+    <div *ngIf="isTypeSelected" >
+        <select class="form-select" (change)="selectFrom($event)">
+            <option selected value="" disabled>Wybierz konto</option>
+            <ng-template [ngIf]="operationType === 'passive'" 
+                [ngIfElse]="active">
+                <option *ngFor="let account of getPassiveAccounts()" 
+                    [value]="account.name">
+                    {{account.name}}
+                </option>
+            </ng-template>
+            <ng-template #active>
+                <option *ngFor="let account of getActiveAccounts()" 
+                    [value]="account.name">
+                    {{account.name}}
+                </option>
+            </ng-template>
+        </select>
+        <select class="form-select" (change)="selectTo($event)">
+            <option selected value="" disabled>Wybierz konto</option>
+            <ng-template [ngIf]="operationType === 'active'" 
+                [ngIfElse]="passive">
+                <option *ngFor="let account of getActiveAccounts()" 
+                    [value]="account.name">
+                    {{account.name}}
+                </option>
+            </ng-template>
+            <ng-template #passive>
+                <option *ngFor="let account of getPassiveAccounts()" 
+                    [value]="account.name">
+                    {{account.name}}
+                </option>
+            </ng-template>
+        </select>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="amount" placeholder="amount">
+            <label for="amount">Kwota</label>
+        </div>
+        <button type="submit" class="btn btn-success rounded-3">Dodaj</button>  
+    </div>  
+</form>

@@ -1,3 +1,14 @@
+<button type="button" 
+  class="btn btn-secondary btn-sm rounded-3"
+  routerLink="../../">
+  Wróć do listy bilansów  
+</button>
+<button type="button" 
+  class="btn btn-success btn-sm rounded-3 float-end"
+  routerLink="./newOperation">
+  Dodaj operację
+</button>
+
 <p>--dane jednostki--</p>
 <h1>Bilans</h1>
 <p class="lead">Sporządzony na dzień ....</p>
@@ -16,7 +27,12 @@
                 <tbody>
                   <tr *ngFor="let account of getActiveAccounts()">
                     <th scope="row">{{ account.path }}</th>
-                    <td>{{ account.name }}</td>
+                    <td>
+                      <a class="text-decoration-none" 
+                        [routerLink]="getAccountPath(account)">
+                        {{ account.name }}
+                      </a>
+                    </td>
                     <td>{{ account.balance }}</td>
                   </tr>
                 </tbody>
@@ -34,7 +50,12 @@
                 <tbody>
                   <tr *ngFor="let account of getPassiveAccounts()">
                     <th scope="row">{{ account.path }}</th>
-                    <td>{{ account.name }}</td>
+                    <td>
+                      <a class="text-decoration-none" 
+                        [routerLink]="getAccountPath(account)">
+                        {{ account.name }}
+                      </a>
+                    </td>
                     <td>{{ account.balance }}</td>
                   </tr>
                 </tbody>
