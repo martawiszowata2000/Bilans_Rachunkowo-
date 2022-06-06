@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Account, Balance } from "../model";
+import { Account, Balance, Operation } from "../model";
 
 @Injectable({
     providedIn: 'root'
@@ -9,12 +9,19 @@ import { Account, Balance } from "../model";
 
 export class DataService {
 
-  private operationTypes = new Map<string, string>([
+  private operationTypesMap = new Map<string, string>([
     ['active', 'aktywna'],
     ['passive', 'pasywna'],
     ['active_passive_up', 'aktywno-pasywna zwiększająca'],
     ['active_passive_down', 'aktywno-pasywna zmniejszająca'],
   ])
+
+  private operationTypesKeys = [
+    'active',
+    'passive',
+    'active_passive_up',
+    'active_passive_down',
+  ]
 
   constructor(private http: HttpClient) {}
 
@@ -34,24 +41,15 @@ export class DataService {
     return this.http.get<Account>(this.url(`accounts/${id}`))
   }
 
-  getOperationTypes() {
-    return this.operationTypes
+  addOperation(operation: Operation): Observable<Operation> {
+    return this.http.post<Operation>(this.url(`operations/add`), operation)
   }
 
-  //do bsk
-  addUser(): Observable<any> {
-    const user = {
-      name: 'USER',
-      email: 'user12345@gmail.com',
-      gender: 'female',
-      status: 'active'
-    }
+  getOperationTypes() {
+    return this.operationTypesMap
+  }
 
-    const options = 
-    { headers: new HttpHeaders({
-        AccessToken: 'Bearer 498a4282082b3275e2e065f4f00f95148dd44b740ecfe5831b8e4f1e1a18f9eb'
-      })
-    }
-    return this.http.post<any>('https://gorest.co.in/public/v2/users', user, options)
+  getOperationKeys() {
+    return this.operationTypesKeys
   }
 }

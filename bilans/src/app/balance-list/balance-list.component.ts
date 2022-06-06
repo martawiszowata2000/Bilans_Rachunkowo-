@@ -13,7 +13,6 @@ export class BalanceListComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.dataService.addUser().subscribe()
     this.dataService.getBalanceList().subscribe(balanceList => {
       this.balanceList = balanceList
     })  

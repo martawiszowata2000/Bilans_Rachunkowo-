@@ -1,14 +1,17 @@
 <h1>Nowa operacja</h1>
-<form #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <select class="form-select" (change)="selectType($event)">
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+    <p>Typ</p>
+    <select class="form-select" (change)="selectType($event)"
+        #type="ngModel" [(ngModel)]="operation.type" name="type">
         <option selected value="" disabled>Wybierz typ operacji</option>
-        <option *ngFor="let type of getTypesEntries()" 
-            [selected]="type[0] === operationType"
-            [value]="type[0]">{{type[1]}}</option>
+        <option *ngFor="let typeKey of getTypesKeys()" 
+            [selected]="typeKey === operationType"
+            [value]="typeKey">{{ getType(typeKey) }}</option>
     </select>
     <div *ngIf="isTypeSelected" >
-        <select class="form-select" (change)="selectFrom($event)">
-            <option selected value="" disabled>Wybierz konto</option>
+        <p>Z konta</p>
+        <select class="form-select" (change)="selectFrom($event)"
+            #from="ngModel" [(ngModel)]="operation.from" name="from">
             <ng-template [ngIf]="operationType === 'passive'" 
                 [ngIfElse]="active">
                 <option *ngFor="let account of getPassiveAccounts()" 
@@ -23,7 +26,9 @@
                 </option>
             </ng-template>
         </select>
-        <select class="form-select" (change)="selectTo($event)">
+        <p>Na konto</p>
+        <select class="form-select" (change)="selectTo($event)"
+            #to="ngModel" [(ngModel)]="operation.to" name="to">
             <option selected value="" disabled>Wybierz konto</option>
             <ng-template [ngIf]="operationType === 'active'" 
                 [ngIfElse]="passive">
@@ -40,7 +45,9 @@
             </ng-template>
         </select>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="amount" placeholder="amount">
+            <input type="text" class="form-control" id="amount" 
+                placeholder="amount" [(ngModel)]="operation.amount"
+                #amount="ngModel" id="amount" name="amount" required>
             <label for="amount">Kwota</label>
         </div>
         <button type="submit" class="btn btn-success rounded-3">Dodaj</button>  

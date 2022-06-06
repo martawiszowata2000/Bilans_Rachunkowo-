@@ -52,12 +52,12 @@ export class BalanceItem{ //konto bilansowe
 
 export class Operation { //operacja bilansowa
     constructor(
-        id: number,
-        type: string,
-        timeStamp: Date,
-        amount: number,
-        from: string,
-        to: string
+        id?: number,
+        type?: string,
+        timeStamp?: Date,
+        amount?: number,
+        from?: string,
+        to?: string
     ) {}
 }
 export interface Operation {

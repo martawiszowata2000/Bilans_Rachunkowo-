@@ -15,7 +15,7 @@ router.route('/:operationId').get((req, res) => {
 })
 
 router.route('/add').post((req, res) => {
-    const operationType = req.body.operationType
+    const operationType = req.body.type
     const from = req.body.from
     const to = req.body.to
     const amount = req.body.amount
