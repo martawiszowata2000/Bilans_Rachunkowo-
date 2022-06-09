@@ -15,12 +15,20 @@ router.route('/:balanceId').get((req, res) => {
         .then(balance_list => res.json(balance_list))
         .catch(err => res.status(400).json('Error' + err))
 })
+router.route('/:balanceId').put((req,res) => {
+    // wszystko poza kontami
+    Balance.findByIdAndUpdate(req.params.balanceId, req.body)
+        .then(() => {res.json('Balance updated')})
+        .catch(err => res.status(400).json('Error'+ err))
+
+
+})
 
 router.route('/add').post((req, res) => {
-    const name = req.body.name
+    const name = 'default'
     const defaultSum = 0
     const defaultOperations = {}
-    const currency = req.body.currency
+    const currency = 'default'
     const newBalance = new Balance({name, defaultSum, defaultSum, currency})
 
     for (const el of jsonActive) {
@@ -38,7 +46,7 @@ router.route('/add').post((req, res) => {
         newBalance.accountsPassive.push(account)
     }
     newBalance.save()
-        .then(() => res.json('Balance added!'))
+        .then(() => res.json(newBalance))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 

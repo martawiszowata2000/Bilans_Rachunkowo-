@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Account, Balance, Operation } from "../model";
@@ -32,7 +32,15 @@ export class DataService {
   getBalanceList(): Observable<Balance[]> {
     return this.http.get<Balance[]>(this.url('balanceList/'))
   }
-  
+
+  addBalance(): Observable<Balance> {
+    return this.http.post<Balance>(this.url(`balanceList/add`),{})
+  }
+
+  updateBalance(id: string): Observable<Balance>{
+    return this.http.put<Balance>(this.url(`balanceList/${id}`), {})
+  }
+
   getBalance(id: string): Observable<Balance> {
     return this.http.get<Balance>(this.url(`balanceList/${id}`))
   }
@@ -52,4 +60,5 @@ export class DataService {
   getOperationKeys() {
     return this.operationTypesKeys
   }
+
 }

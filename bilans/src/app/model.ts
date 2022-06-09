@@ -1,17 +1,17 @@
 export class Balance { //bilans konta
     constructor(
-        id: string,
-        name: string,
-        sumActive: number,
-        sumPassive: number,
-        currency: string,
-        accountsActive: Account[],
-        accountsPassive: Account[]
+        _id?: string,
+        name?: string,
+        sumActive?: number,
+        sumPassive?: number,
+        currency?: string,
+        accountsActive?: Account[],
+        accountsPassive?: Account[]
         ) {}
 }
 
 export interface Balance { //bilans konta
-    id: string,
+    _id: string,
     name: string,
     sumActive: number,
     sumPassive: number,
@@ -26,6 +26,7 @@ export class Account { //konto bilansowe
         path: string,
         name: string,
         balance: number,
+        initialBalance: number,
         debit?: Operation[],
         credit?: Operation[]
         ) {}
@@ -36,6 +37,7 @@ export interface Account { //konto bilansowe
     path: string,
     name: string,
     balance: number,
+    initialBalance: number,
     debit?: Operation[],
     credit?: Operation[]
 }

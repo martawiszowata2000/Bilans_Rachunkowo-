@@ -1,0 +1,56 @@
+<h1>Nowy BILANS</h1>
+<form #f="ngForm" (ngSubmit)="onSubmit(balance._id)">
+
+  <h3>Dane jednostki: </h3>
+  <input type="text" [ngModel]="balance.name" name="balanceName" #balanceName="ngModel">
+  <h4>Sporządzony na dzień: </h4>
+  <h6>tu powinien byc datepicker</h6>
+  <div class="row">
+    <div class="col-6">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Typ</th>
+        <th scope="col">Saldo początkowe</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of getActiveAccounts()">
+        <th scope="row">{{account.path}}</th>
+        <td>{{account.name}}</td>
+        <input type="number" class="form-control"
+               [(ngModel)]="account.initialBalance"
+               name="initialBalanceA" #initialBalanceA="ngModel"
+        >
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-6">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Typ</th>
+        <th scope="col">Saldo początkowe</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of getPassiveAccounts()">
+        <th scope="row">{{account.path}}</th>
+        <td>{{account.name}}</td>
+        <input type="number" class="form-control"
+               name="initialBalanceP" #initialBalanceP="ngModel"
+               [(ngModel)]="account.initialBalance" >
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+  <button type="submit" class="btn btn-success rounded-3">Dodaj</button>
+
+</form>
