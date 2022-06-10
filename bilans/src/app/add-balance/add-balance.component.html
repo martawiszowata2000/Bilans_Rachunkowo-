@@ -1,10 +1,18 @@
 <h1>Nowy BILANS</h1>
-<form #f="ngForm" (ngSubmit)="onSubmit(balance._id)">
+<form #f="ngForm" (ngSubmit)="onSubmit()">
 
   <h3>Dane jednostki: </h3>
-  <input type="text" [ngModel]="balance.name" name="balanceName" #balanceName="ngModel">
+  <input type="text" [(ngModel)]="balance.name" 
+    name="balanceName" #balanceName="ngModel">
+  <div *ngIf="balanceName.errors?.['required']" class="cross-validation-error-message alert alert-danger">
+      Nazwa nie może być pusta.
+  </div>
   <h4>Sporządzony na dzień: </h4>
-  <h6>tu powinien byc datepicker</h6>
+  <mat-form-field>
+    <input matInput [matDatepicker]="myDatepicker">
+    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #myDatepicker></mat-datepicker>
+  </mat-form-field>
   <div class="row">
     <div class="col-6">
     <table class="table">
@@ -20,7 +28,7 @@
       <tr *ngFor="let account of getActiveAccounts()">
         <th scope="row">{{account.path}}</th>
         <td>{{account.name}}</td>
-        <input type="number" class="form-control"
+        <input type="number" class="form-control" required
                [(ngModel)]="account.initialBalance"
                name="initialBalanceA" #initialBalanceA="ngModel"
         >

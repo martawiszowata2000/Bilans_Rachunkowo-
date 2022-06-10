@@ -11,10 +11,11 @@ import { RouterModule } from '@angular/router';
 import { AddOperationComponent } from './add-operation/add-operation.component';
 import { FormsModule } from '@angular/forms';
 import { AddBalanceComponent } from './add-balance/add-balance.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatNativeDateModule} from "@angular/material/core";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatInputModule } from "@angular/material/input"
 
 
 @NgModule({
@@ -34,9 +35,10 @@ import {MatNativeDateModule} from "@angular/material/core";
     RouterModule,
     FormsModule,
     MatDatepickerModule,
-    NoopAnimationsModule,
+    MatNativeDateModule,
     MatFormFieldModule,
-    MatNativeDateModule
+    MatInputModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

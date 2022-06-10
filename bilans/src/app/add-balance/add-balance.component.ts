@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Account, Balance, Operation } from 'app/model';
+import { Account, Balance } from 'app/model';
 import { DataService } from 'app/services/data.service';
-import {tap} from "rxjs";
-// import {active} from '../../../balance-sample/activeOp';
-// import {passive} from '../../../balance-sample/passiveOp';
-// import {MatDatepickerModule} from '@angular/material/datepicker';
+
 
 
 @Component({
@@ -17,7 +14,7 @@ export class AddBalanceComponent implements OnInit {
 
   isTypeSelected = false
   // date
-  balance: Balance
+  balance = new Balance()
   activeAccounts: Account[]
   passiveAccounts: Account[]
   constructor(private dataService: DataService,
@@ -25,10 +22,10 @@ export class AddBalanceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  this.dataService.addBalance().subscribe(
-    balance => this.balance = balance
-  )
-
+    this.dataService.addBalance().subscribe(balance => {
+      this.balance = balance
+      this.balance.name = ''
+    })
   }
 
   getActiveAccounts(){
@@ -39,9 +36,10 @@ export class AddBalanceComponent implements OnInit {
     return this.balance?.accountsPassive
   }
 
-  onSubmit(balanceId){
-    this.dataService.updateBalance(balanceId).subscribe(
+  onSubmit(){
+    this.dataService.updateBalance(this.balance).subscribe(
     )
+    console.log(this.balance)
   }
 }
 

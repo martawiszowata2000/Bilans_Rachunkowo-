@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Account, Balance, Operation } from "../model";
@@ -37,8 +37,8 @@ export class DataService {
     return this.http.post<Balance>(this.url(`balanceList/add`),{})
   }
 
-  updateBalance(id: string): Observable<Balance>{
-    return this.http.put<Balance>(this.url(`balanceList/${id}`), {})
+  updateBalance(balance: Balance): Observable<Balance>{
+    return this.http.put<Balance>(this.url(`balanceList/${balance._id}`), balance)
   }
 
   getBalance(id: string): Observable<Balance> {

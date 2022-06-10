@@ -20,7 +20,9 @@ router.route('/:balanceId').put((req,res) => {
     Balance.findByIdAndUpdate(req.params.balanceId, req.body)
         .then(() => {res.json('Balance updated')})
         .catch(err => res.status(400).json('Error'+ err))
-
+    req.body.accountsActive.forEach(account => {
+        Balance.findByIdAndUpdate(account.accountId, account)
+    });
 
 })
 
