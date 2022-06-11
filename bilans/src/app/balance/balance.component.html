@@ -1,12 +1,18 @@
-<button type="button" 
+<button type="button"
   class="btn btn-secondary btn-sm rounded-3"
   routerLink="../../">
-  Wróć do listy bilansów  
+  Wróć do listy bilansów
 </button>
-<button type="button" 
+<button type="button"
   class="btn btn-success btn-sm rounded-3 float-end"
   routerLink="./newOperation">
   Dodaj operację
+</button>
+<button type="button"
+        class="btn btn-success btn-sm rounded-3 float-end"
+        (click)="deleteBalance()"
+>
+  Usuń bilans
 </button>
 
 <p>--dane jednostki--</p>
@@ -28,7 +34,7 @@
                   <tr *ngFor="let account of getActiveAccounts()">
                     <th scope="row">{{ account.path }}</th>
                     <td>
-                      <a class="text-decoration-none" 
+                      <a class="text-decoration-none"
                         [routerLink]="getAccountPath(account)">
                         {{ account.name }}
                       </a>
@@ -51,7 +57,7 @@
                   <tr *ngFor="let account of getPassiveAccounts()">
                     <th scope="row">{{ account.path }}</th>
                     <td>
-                      <a class="text-decoration-none" 
+                      <a class="text-decoration-none"
                         [routerLink]="getAccountPath(account)">
                         {{ account.name }}
                       </a>

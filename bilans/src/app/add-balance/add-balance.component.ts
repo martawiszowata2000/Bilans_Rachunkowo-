@@ -22,7 +22,8 @@ export class AddBalanceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.addBalance().subscribe(balance => {
+    this.dataService.getSchema().subscribe(balance => {
+      console.log(balance)
       this.balance = balance
       this.balance.name = ''
     })
@@ -37,10 +38,14 @@ export class AddBalanceComponent implements OnInit {
   }
 
   onSubmit(){
-    this.dataService.updateBalance(this.balance).subscribe(
+    this.dataService.addBalance(this.balance).subscribe(
     )
-    console.log(this.balance)
   }
+
+  deleteBalance(){
+    this.dataService.deleteBalance(this.balance).subscribe()
+  }
+
 }
 
 

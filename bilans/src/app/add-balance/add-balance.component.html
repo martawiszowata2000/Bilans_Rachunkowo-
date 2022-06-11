@@ -1,8 +1,14 @@
+<button type="button"
+        (click)="deleteBalance()"
+        class="btn btn-secondary btn-sm rounded-3"
+        routerLink="../../">
+  Anuluj i wróć do listy bilansów
+</button>
 <h1>Nowy BILANS</h1>
 <form #f="ngForm" (ngSubmit)="onSubmit()">
 
   <h3>Dane jednostki: </h3>
-  <input type="text" [(ngModel)]="balance.name" 
+  <input type="text" [(ngModel)]="balance.name"
     name="balanceName" #balanceName="ngModel">
   <div *ngIf="balanceName.errors?.['required']" class="cross-validation-error-message alert alert-danger">
       Nazwa nie może być pusta.

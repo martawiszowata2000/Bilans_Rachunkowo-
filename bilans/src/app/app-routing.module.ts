@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'balance/:balanceId', component: BalanceComponent },
   { path: 'list/newBalance', component: AddBalanceComponent },
   { path: 'balance/:balanceId/update', component: AddBalanceComponent},
+  { path: 'balance/:balanceId/delete', component: AddBalanceComponent},
   { path: 'balance/:balanceId/newOperation', component: AddOperationComponent },
   { path: 'balance/:balanceId/account/:accountId', component: AccountBalanceComponent },
 ];

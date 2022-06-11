@@ -15,18 +15,27 @@ router.route('/:balanceId').get((req, res) => {
         .then(balance_list => res.json(balance_list))
         .catch(err => res.status(400).json('Error' + err))
 })
-router.route('/:balanceId').put((req,res) => {
+router.route('/:balanceId').post((req,res) => {
     // wszystko poza kontami
-    Balance.findByIdAndUpdate(req.params.balanceId, req.body)
-        .then(() => {res.json('Balance updated')})
-        .catch(err => res.status(400).json('Error'+ err))
-    req.body.accountsActive.forEach(account => {
+    // Balance.findByIdAndUpdate(req.params.balanceId, req.body)
+    //     .then(() => {res.json('Balance updated')})
+    //     .catch(err => res.status(400).json('Error'+ err))
+    const newBalance = new Balance(req.body)
+    newBalance.save()
+        .then(() => res.json(newBalance))
+        .catch(err => res.status(400).json('Error: ' + err))
+    const balance = Balance.findById(req.params.balanceId)
+    balance.accountsActive.forEach(account => {
+        Balance.findByIdAndUpdate(account.accountId, account)
+    });
+    balance.accountsPassive.forEach(account => {
         Balance.findByIdAndUpdate(account.accountId, account)
     });
 
+
 })
 
-router.route('/add').post((req, res) => {
+router.route('/getSchema').get((req, res) => {
     const name = 'default'
     const defaultSum = 0
     const defaultOperations = {}
@@ -47,8 +56,14 @@ router.route('/add').post((req, res) => {
         account.save()
         newBalance.accountsPassive.push(account)
     }
-    newBalance.save()
-        .then(() => res.json(newBalance))
+    res.json(newBalance)
+//        .then(() => res.json(newBalance))
+      //  .catch(err => res.status(400).json('Error: ' + err))
+})
+
+router.route('/:balanceId').delete((req,res) =>{
+    Balance.findByIdAndDelete(req.params.balanceId)
+        .then(() => res.json("Balance deleted!"))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
