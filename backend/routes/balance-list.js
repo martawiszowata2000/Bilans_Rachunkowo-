@@ -9,18 +9,11 @@ router.route('/').get((req, res) => {
         .then(balance_list => res.json(balance_list))
         .catch(err => res.status(400).json('Error' + err))
 })
-
-router.route('/:balanceId').get((req, res) => {
-    Balance.findById(req.params.balanceId)
-        .then(balance_list => res.json(balance_list))
-        .catch(err => res.status(400).json('Error' + err))
-})
-
-router.route('/add').post((req, res) => {
-    const name = req.body.name
+router.route('/getSchema').get((req, res) => {
+    const name = 'default'
     const defaultSum = 0
     const defaultOperations = {}
-    const currency = req.body.currency
+    const currency = 'default'
     const newBalance = new Balance({name, defaultSum, defaultSum, currency})
 
     for (const el of jsonActive) {
@@ -37,8 +30,51 @@ router.route('/add').post((req, res) => {
         account.save()
         newBalance.accountsPassive.push(account)
     }
+    res.json(newBalance)
+})
+
+router.route('/add').post((req,res) => {
+    const name = req.body.name
+    const date = req.body.date
+    const accountsDefault = []
+    const currency = req.body.currency
+    let sumAct = 0
+    let sumPas = 0
+    const newBalance = new Balance(
+        {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
+    )
+    req.body.accountsActive.forEach(account => {
+        newBalance.accountsActive.push(account)
+    })
+    req.body.accountsPassive.forEach(account => 
+        newBalance.accountsPassive.push(account))
+
+    newBalance.accountsActive.forEach(account => {
+        sumAct += account.initialBalance
+    })
+    newBalance.accountsPassive.forEach(account => {
+        sumPas += account.initialBalance
+    })
+
+    newBalance.sumActive = sumAct
+    newBalance.sumPassive = sumPas
+    if(sumAct !== sumPas)
+        res.status(500).send({ error: 'Totals are different' })
+    else
     newBalance.save()
-        .then(() => res.json('Balance added!'))
+        .then(() => res.json(newBalance))
+        .catch(err => res.status(400).json('Error: ' + err))
+})
+
+router.route('/:balanceId').get((req, res) => {
+    Balance.findById(req.params.balanceId)
+        .then(balance_list => res.json(balance_list))
+        .catch(err => res.status(400).json('Error' + err))
+})
+
+router.route('/delete/:balanceId').delete((req,res) =>{
+    Balance.findByIdAndDelete(req.params.balanceId)
+        .then(() => res.json("Balance deleted!"))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 

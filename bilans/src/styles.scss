@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-datepicker-toggle {
+    color: #c2185b!important;
+}
+
+.mat-form-field-flex {
+    border-bottom: 1px solid black !important;
+}
+.mat-form-field-infix {
+    border: none!important;
+}
+
+.input-style {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.281) !important;
+    &:focus {
+        border-bottom: 3px solid #c2185b !important; 
+        outline: none; 
+    }
+}
+
+.input-style-initial-balance {
+    max-width: 6rem;
+    border: none;
+    text-align: center;
+    &:focus {
+        outline: none;
+    }
+    &[type=number] {
+        -moz-appearance: textfield;
+    }
+}
+
+.btn-success {
+    background-color: #c2185b!important;
+    border-color: #c2185b!important;
+}
+
+.error-message {
+    color: rgb(155, 6, 6);
+    font-weight: bold;
+    font-size: .8rem;
+}
+
+.list-group{
+    max-width: fit-content;
+}

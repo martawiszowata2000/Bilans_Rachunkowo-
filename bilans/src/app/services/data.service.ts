@@ -32,9 +32,25 @@ export class DataService {
   getBalanceList(): Observable<Balance[]> {
     return this.http.get<Balance[]>(this.url('balanceList/'))
   }
-  
+
   getBalance(id: string): Observable<Balance> {
     return this.http.get<Balance>(this.url(`balanceList/${id}`))
+  }
+
+  getSchema(): Observable<Balance>{
+    return this.http.get<Balance>(this.url(`balanceList/getSchema`))
+  }
+
+  addBalance(balance: Balance): Observable<Balance> {
+    return this.http.post<Balance>(this.url(`balanceList/add`), balance)
+  }
+
+  // updateBalance(balance: Balance): Observable<Balance>{
+  //   return this.http.put<Balance>(this.url(`balanceList/${balance._id}`), balance)
+  // }
+
+  deleteBalance(balance: Balance): Observable<string>{
+    return this.http.delete<string>(this.url(`balanceList/delete/${balance._id}`))
   }
 
   getAccountById(id: string): Observable<Account> {
@@ -52,4 +68,5 @@ export class DataService {
   getOperationKeys() {
     return this.operationTypesKeys
   }
+
 }

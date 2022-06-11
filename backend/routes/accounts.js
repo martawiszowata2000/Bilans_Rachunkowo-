@@ -36,5 +36,10 @@ router.route('/update/:accountId').put((req, res) => {
 //         .then(() => { res.json('Accounts deleted!')})
 //         .catch(err => res.status(400).json('Error' + err))
 // })
+router.route('/updateInitialValue/:accountId').put((req,res) => {
+    Accounts.findByIdAndUpdate(req.params.accountId, req.body)
+        .then(() => { res.json('Account updated!')})
+        .catch(err => res.status(400).json('Error' + err))
+})
 
 module.exports = router

@@ -5,11 +5,15 @@ import { AccountBalanceComponent } from './account-balance/account-balance.compo
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { BalanceComponent } from './balance/balance.component';
 import { AddOperationComponent } from './add-operation/add-operation.component';
+import {AddBalanceComponent} from "./add-balance/add-balance.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
   { path: 'list', component: BalanceListComponent },
   { path: 'balance/:balanceId', component: BalanceComponent },
+  { path: 'list/newBalance', component: AddBalanceComponent },
+  { path: 'balance/:balanceId/update', component: AddBalanceComponent},
+  { path: 'balance/:balanceId/delete', component: AddBalanceComponent},
   { path: 'balance/:balanceId/newOperation', component: AddOperationComponent },
   { path: 'balance/:balanceId/account/:accountId', component: AccountBalanceComponent },
 ];

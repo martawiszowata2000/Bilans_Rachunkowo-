@@ -9,13 +9,13 @@ import { DataService } from '../services/data.service';
 })
 export class BalanceListComponent implements OnInit {
   balanceList: Array<Balance> = []
-  
+
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     this.dataService.getBalanceList().subscribe(balanceList => {
       this.balanceList = balanceList
-    })  
+    })
   }
 
   getPath(balance: Balance) {

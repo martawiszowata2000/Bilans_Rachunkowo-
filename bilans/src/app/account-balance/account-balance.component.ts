@@ -30,5 +30,9 @@ export class AccountBalanceComponent implements OnInit {
   getAccountBalance() {
     return this.account?.balance
   }
-  
+
+  getAccountInitialBalance(){
+    return this.account?.initialBalance
+  }
+
 }

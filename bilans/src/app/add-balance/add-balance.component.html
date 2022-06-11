@@ -1,0 +1,85 @@
+<button type="button"
+        class="btn btn-secondary btn-sm rounded-3"
+        routerLink="../">
+  Wróć do listy bilansów
+</button>
+<h1 class="text-center">Nowy bilans</h1>
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+<div class="row justify-content-around">
+  <div class="col-4 text-center">
+    <h3>Dane jednostki: </h3>
+    <input type="text" [(ngModel)]="balance.name" minlength="5" placeholder="Nazwa"
+      name="balanceName" #balanceName="ngModel" class="input-style">
+    <div *ngIf="balanceName.errors?.['minlength']" class="error-message">
+        Nazwa musi mieć co najmniej 5 znaków.
+    </div>
+  </div>
+  <div class="col-4 text-center">
+    <h3>Jednostka obliczeniowa: </h3>
+    <input type="text" [(ngModel)]="balance.currency" minlength="2" placeholder="np. zł"
+      name="balanceCurrency" #balanceCurrency="ngModel" class="input-style">
+    <div *ngIf="balanceCurrency.errors?.['minlength']" class="error-message">
+        Jednostka musi mieć co najmniej 2 znaki.
+    </div>
+  </div>
+  <div class="col-4 text-center">
+    <h4>Sporządzony na dzień: </h4>
+    <mat-form-field>
+      <input type="text" matInput [matDatepicker]="myDatepicker" [(ngModel)]="balance.date"
+        name="balanceDate" #balanceDate="ngModel">
+      <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #myDatepicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-6">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Typ</th>
+        <th scope="col">Saldo początkowe</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of getActiveAccounts()">
+        <th scope="row">{{account.path}}</th>
+        <td>{{account.name}}</td>
+        <td>
+          <input type="number" class="input-style-initial-balance" required
+            [(ngModel)]="account.initialBalance"
+            name="initialBalanceA" #initialBalanceA="ngModel">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-6">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Typ</th>
+        <th scope="col">Saldo początkowe</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of getPassiveAccounts()">
+        <th scope="row">{{account.path}}</th>
+        <td>{{account.name}}</td>
+        <td>
+            <input type="number" class="input-style-initial-balance"
+              name="initialBalanceP" #initialBalanceP="ngModel"
+              [(ngModel)]="account.initialBalance">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+  <button type="submit" class="btn btn-success rounded-3">Dodaj</button>
+</form>

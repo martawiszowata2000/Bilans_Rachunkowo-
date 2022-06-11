@@ -10,6 +10,14 @@ import { BalanceComponent } from './balance/balance.component';
 import { RouterModule } from '@angular/router';
 import { AddOperationComponent } from './add-operation/add-operation.component';
 import { FormsModule } from '@angular/forms';
+import { AddBalanceComponent } from './add-balance/add-balance.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatInputModule } from "@angular/material/input"
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,14 +25,20 @@ import { FormsModule } from '@angular/forms';
     AccountBalanceComponent,
     MainLayoutComponent,
     BalanceComponent,
-    AddOperationComponent
+    AddOperationComponent,
+    AddBalanceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
