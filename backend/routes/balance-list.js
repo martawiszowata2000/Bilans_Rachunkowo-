@@ -9,32 +9,6 @@ router.route('/').get((req, res) => {
         .then(balance_list => res.json(balance_list))
         .catch(err => res.status(400).json('Error' + err))
 })
-
-router.route('/:balanceId').get((req, res) => {
-    Balance.findById(req.params.balanceId)
-        .then(balance_list => res.json(balance_list))
-        .catch(err => res.status(400).json('Error' + err))
-})
-router.route('/:balanceId').post((req,res) => {
-    // wszystko poza kontami
-    // Balance.findByIdAndUpdate(req.params.balanceId, req.body)
-    //     .then(() => {res.json('Balance updated')})
-    //     .catch(err => res.status(400).json('Error'+ err))
-    const newBalance = new Balance(req.body)
-    newBalance.save()
-        .then(() => res.json(newBalance))
-        .catch(err => res.status(400).json('Error: ' + err))
-    const balance = Balance.findById(req.params.balanceId)
-    balance.accountsActive.forEach(account => {
-        Balance.findByIdAndUpdate(account.accountId, account)
-    });
-    balance.accountsPassive.forEach(account => {
-        Balance.findByIdAndUpdate(account.accountId, account)
-    });
-
-
-})
-
 router.route('/getSchema').get((req, res) => {
     const name = 'default'
     const defaultSum = 0
@@ -57,11 +31,34 @@ router.route('/getSchema').get((req, res) => {
         newBalance.accountsPassive.push(account)
     }
     res.json(newBalance)
-//        .then(() => res.json(newBalance))
-      //  .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/:balanceId').delete((req,res) =>{
+router.route('/add').post((req,res) => {
+    const name = req.body.name
+    const date = req.body.date
+    const accountsDefault = []
+    const currency = req.body.currency
+    const sum = req.body.sumActive
+    const newBalance = new Balance(
+        {name,date,sum,sum,currency, accountsDefault, accountsDefault}
+        )
+    req.body.accountsActive.forEach(account => 
+        newBalance.accountsActive.push(account))
+    req.body.accountsPassive.forEach(account => 
+        newBalance.accountsPassive.push(account))
+
+    newBalance.save()
+        .then(() => res.json(newBalance))
+        .catch(err => res.status(400).json('Error: ' + err))
+})
+
+router.route('/:balanceId').get((req, res) => {
+    Balance.findById(req.params.balanceId)
+        .then(balance_list => res.json(balance_list))
+        .catch(err => res.status(400).json('Error' + err))
+})
+
+router.route('delete/:balanceId').delete((req,res) =>{
     Balance.findByIdAndDelete(req.params.balanceId)
         .then(() => res.json("Balance deleted!"))
         .catch(err => res.status(400).json('Error: ' + err))
