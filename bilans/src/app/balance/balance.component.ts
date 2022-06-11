@@ -14,7 +14,8 @@ export class BalanceComponent implements OnInit {
   balance: Balance
   balanceId: string
   constructor(private dataService: DataService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.pipe(
@@ -47,7 +48,9 @@ export class BalanceComponent implements OnInit {
     return `./account/${account['_id']}`
   }
 
-  deleteBalance(){
-    this.dataService.deleteBalance(this.balance).subscribe()
+  deleteBalance() {
+    this.dataService.deleteBalance(this.balance).subscribe(_ =>
+      this.router.navigate(['/list']) )
+    
   }
 }

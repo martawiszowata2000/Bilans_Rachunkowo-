@@ -1,6 +1,7 @@
 export class Balance { //bilans konta
     constructor(
         _id?: string,
+        date?: Date,
         name?: string,
         sumActive?: number,
         sumPassive?: number,
@@ -12,6 +13,7 @@ export class Balance { //bilans konta
 
 export interface Balance { //bilans konta
     _id: string,
+    date: Date,
     name: string,
     sumActive: number,
     sumPassive: number,

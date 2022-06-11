@@ -1,5 +1,9 @@
-
-<ul lass="list-group list-group-flush">
+<button type="button"
+class="btn btn-success btn-sm rounded-3 float-end"
+routerLink="./newBalance">
+Dodaj bilans
+</button>
+<ul class="list-group list-group-flush">
     <li *ngFor="let balance of balanceList" class="list-group-item">
         <a [routerLink]="getPath(balance)"
             class="text-decoration-none">
@@ -7,8 +11,3 @@
         </a>
     </li>
 </ul>
-<button type="button"
-        class="btn btn-success btn-sm rounded-3 float-end"
-        routerLink="./newBalance">
-  Dodaj bilans
-</button>

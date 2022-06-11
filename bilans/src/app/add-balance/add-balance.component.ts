@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Account, Balance } from 'app/model';
 import { DataService } from 'app/services/data.service';
 
@@ -13,12 +13,11 @@ import { DataService } from 'app/services/data.service';
 export class AddBalanceComponent implements OnInit {
 
   isTypeSelected = false
-  // date
   balance = new Balance()
   activeAccounts: Account[]
   passiveAccounts: Account[]
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -26,6 +25,7 @@ export class AddBalanceComponent implements OnInit {
       console.log(balance)
       this.balance = balance
       this.balance.name = ''
+      this.balance.currency = ''
     })
   }
 
@@ -38,25 +38,8 @@ export class AddBalanceComponent implements OnInit {
   }
 
   onSubmit(){
-    this.dataService.addBalance(this.balance).subscribe(
+    this.dataService.addBalance(this.balance).subscribe( _ =>
+      this.router.navigate(['/list'])
     )
   }
-
-  deleteBalance(){
-    this.dataService.deleteBalance(this.balance).subscribe()
-  }
-
 }
-
-
-// export const MY_FORMATS = {
-//   parse: {
-//     dateInput: 'LL',
-//   },
-//   display: {
-//     dateInput: 'YYYY-MM-DD',
-//     monthYearLabel: 'YYYY',
-//     dateA11yLabel: 'LL',
-//     monthYearA11yLabel: 'YYYY',
-//   },
-// };

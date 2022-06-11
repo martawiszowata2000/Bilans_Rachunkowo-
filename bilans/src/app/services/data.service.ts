@@ -49,8 +49,8 @@ export class DataService {
   //   return this.http.put<Balance>(this.url(`balanceList/${balance._id}`), balance)
   // }
 
-  deleteBalance(balance:Balance): Observable<Balance>{
-    return this.http.delete<Balance>(this.url(`balanceList/${balance._id}`))
+  deleteBalance(balance: Balance): Observable<string>{
+    return this.http.delete<string>(this.url(`balanceList/delete/${balance._id}`))
   }
 
   getAccountById(id: string): Observable<Account> {

@@ -38,15 +38,29 @@ router.route('/add').post((req,res) => {
     const date = req.body.date
     const accountsDefault = []
     const currency = req.body.currency
-    const sum = req.body.sumActive
+    let sumAct = 0
+    let sumPas = 0
     const newBalance = new Balance(
-        {name,date,sum,sum,currency, accountsDefault, accountsDefault}
-        )
-    req.body.accountsActive.forEach(account => 
-        newBalance.accountsActive.push(account))
+        {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
+    )
+    req.body.accountsActive.forEach(account => {
+        newBalance.accountsActive.push(account)
+    })
     req.body.accountsPassive.forEach(account => 
         newBalance.accountsPassive.push(account))
 
+    newBalance.accountsActive.forEach(account => {
+        sumAct += account.initialBalance
+    })
+    newBalance.accountsPassive.forEach(account => {
+        sumPas += account.initialBalance
+    })
+
+    newBalance.sumActive = sumAct
+    newBalance.sumPassive = sumPas
+    if(sumAct !== sumPas)
+        res.status(500).send({ error: 'Totals are different' })
+    else
     newBalance.save()
         .then(() => res.json(newBalance))
         .catch(err => res.status(400).json('Error: ' + err))
@@ -58,7 +72,7 @@ router.route('/:balanceId').get((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-router.route('delete/:balanceId').delete((req,res) =>{
+router.route('/delete/:balanceId').delete((req,res) =>{
     Balance.findByIdAndDelete(req.params.balanceId)
         .then(() => res.json("Balance deleted!"))
         .catch(err => res.status(400).json('Error: ' + err))
