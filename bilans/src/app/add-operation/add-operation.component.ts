@@ -20,15 +20,15 @@ export class AddOperationComponent implements OnInit {
   toAccount: Account
   operation = new Operation()
   constructor(private dataService: DataService,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.operationTypesMap = this.dataService.getOperationTypes()
     this.operationTypesKeys = this.dataService.getOperationKeys()
-     
+
     this.route.paramMap.pipe(
-      switchMap(params => 
+      switchMap(params =>
         this.dataService.getBalance(params.get('balanceId'))),
       tap(balance => this.balance = balance)
     )
@@ -42,19 +42,19 @@ export class AddOperationComponent implements OnInit {
 
   selectFrom(event) {
     if(this.operationType === 'passive')
-      this.fromAccount = this.getPassiveAccounts().find(el => 
+      this.fromAccount = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.fromAccount = this.getActiveAccounts().find(el => 
+      this.fromAccount = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
   selectTo(event) {
     if(this.operationType === 'active')
-      this.toAccount = this.getActiveAccounts().find(el => 
+      this.toAccount = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.toAccount = this.getPassiveAccounts().find(el => 
+      this.toAccount = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
@@ -77,6 +77,7 @@ export class AddOperationComponent implements OnInit {
     const passiveAccounts = []
     this.balance?.accountsPassive.forEach(account =>
       passiveAccounts.push(account))
+    console.log(passiveAccounts)
     return passiveAccounts
   }
 

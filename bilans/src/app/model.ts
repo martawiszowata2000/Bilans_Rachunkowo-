@@ -24,7 +24,7 @@ export interface Balance { //bilans konta
 
 export class Account { //konto bilansowe
     constructor(
-        id: number,
+        _id: number,
         path: string,
         name: string,
         balance: number,
@@ -35,7 +35,7 @@ export class Account { //konto bilansowe
 }
 
 export interface Account { //konto bilansowe
-    id: number,
+    _id: number,
     path: string,
     name: string,
     balance: number,
@@ -56,7 +56,7 @@ export class BalanceItem{ //konto bilansowe
 
 export class Operation { //operacja bilansowa
     constructor(
-        id?: number,
+        _id?: number,
         type?: string,
         timeStamp?: Date,
         amount?: number,
@@ -65,7 +65,7 @@ export class Operation { //operacja bilansowa
     ) {}
 }
 export interface Operation {
-    id: number,
+    _id: number,
     type: string,
     timeStamp: Date,
     amount: number,

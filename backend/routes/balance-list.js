@@ -59,7 +59,7 @@ router.route('/add').post((req,res) => {
     newBalance.sumActive = sumAct
     newBalance.sumPassive = sumPas
     if(sumAct !== sumPas)
-        res.status(500).send({ error: 'Totals are different' })
+        res.status(400).send({ error: 'Totals are different' })
     else
     newBalance.save()
         .then(() => res.json(newBalance))

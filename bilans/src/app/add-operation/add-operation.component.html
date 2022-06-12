@@ -4,7 +4,7 @@
     <select class="form-select" (change)="selectType($event)"
         #type="ngModel" [(ngModel)]="operation.type" name="type">
         <option selected value="" disabled>Wybierz typ operacji</option>
-        <option *ngFor="let typeKey of getTypesKeys()" 
+        <option *ngFor="let typeKey of getTypesKeys()"
             [selected]="typeKey === operationType"
             [value]="typeKey">{{ getType(typeKey) }}</option>
     </select>
@@ -12,16 +12,16 @@
         <p>Z konta</p>
         <select class="form-select" (change)="selectFrom($event)"
             #from="ngModel" [(ngModel)]="operation.from" name="from">
-            <ng-template [ngIf]="operationType === 'passive'" 
+            <ng-template [ngIf]="operationType === 'passive'"
                 [ngIfElse]="active">
-                <option *ngFor="let account of getPassiveAccounts()" 
-                    [value]="account.name">
+                <option *ngFor="let account of getPassiveAccounts()"
+                    [value]="account._id">
                     {{account.name}}
                 </option>
             </ng-template>
             <ng-template #active>
-                <option *ngFor="let account of getActiveAccounts()" 
-                    [value]="account.name">
+                <option *ngFor="let account of getActiveAccounts()"
+                    [value]="account._id">
                     {{account.name}}
                 </option>
             </ng-template>
@@ -30,26 +30,26 @@
         <select class="form-select" (change)="selectTo($event)"
             #to="ngModel" [(ngModel)]="operation.to" name="to">
             <option selected value="" disabled>Wybierz konto</option>
-            <ng-template [ngIf]="operationType === 'active'" 
+            <ng-template [ngIf]="operationType === 'active'"
                 [ngIfElse]="passive">
-                <option *ngFor="let account of getActiveAccounts()" 
-                    [value]="account.name">
+                <option *ngFor="let account of getActiveAccounts()"
+                    [value]="account._id">
                     {{account.name}}
                 </option>
             </ng-template>
             <ng-template #passive>
-                <option *ngFor="let account of getPassiveAccounts()" 
-                    [value]="account.name">
+                <option *ngFor="let account of getPassiveAccounts()"
+                    [value]="account._id">
                     {{account.name}}
                 </option>
             </ng-template>
         </select>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="amount" 
+            <input type="text" class="form-control" id="amount"
                 placeholder="amount" [(ngModel)]="operation.amount"
                 #amount="ngModel" id="amount" name="amount" required>
             <label for="amount">Kwota</label>
         </div>
-        <button type="submit" class="btn btn-success rounded-3">Dodaj</button>  
-    </div>  
+        <button type="submit" class="btn btn-success rounded-3">Dodaj</button>
+    </div>
 </form>

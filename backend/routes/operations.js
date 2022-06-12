@@ -14,13 +14,21 @@ router.route('/:operationId').get((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-router.route('/add').post((req, res) => {
+router.route('/add').post(async (req, res) => {
     const operationType = req.body.type
     const from = req.body.from
     const to = req.body.to
     const amount = req.body.amount
-
     const newOperation = new Operation({operationType, from, to, amount})
+
+    const accountFrom = await Account.findById(from)
+    const accountTo = await Account.findById(to)
+
+    accountFrom.credit.push(newOperation)
+    accountTo.debit.push(newOperation)
+
+    accountTo.save()
+    accountFrom.save()
 
     newOperation.save()
         .then(() => res.json('Operation added!'))
