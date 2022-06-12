@@ -58,7 +58,7 @@ export class Operation { //operacja bilansowa
     constructor(
         _id?: number,
         type?: string,
-        timeStamp?: Date,
+        createdAt?: Date,
         amount?: number,
         from?: string,
         to?: string
@@ -67,7 +67,7 @@ export class Operation { //operacja bilansowa
 export interface Operation {
     _id: number,
     type: string,
-    timeStamp: Date,
+    createdAt: Date,
     amount: number,
     from: string,
     to: string
