@@ -16,6 +16,7 @@ export class AddOperationComponent implements OnInit {
   isTypeSelected = false
   operationType: string
   balance: Balance
+  selectedAccount: string
   fromAccount: Account
   toAccount: Account
   operation = new Operation()

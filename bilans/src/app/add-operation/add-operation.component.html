@@ -12,7 +12,7 @@
         <p>Z konta</p>
         <select class="form-select" (change)="selectFrom($event)"
             #from="ngModel" [(ngModel)]="operation.from" name="from">
-            <ng-template [ngIf]="operationType === 'passive'"
+            <ng-template [ngIf]="operationType === 'passive' || operationType === 'active_passive_up'"
                 [ngIfElse]="active">
                 <option *ngFor="let account of getPassiveAccounts()"
                     [value]="account._id">
@@ -27,21 +27,23 @@
             </ng-template>
         </select>
         <p>Na konto</p>
-        <select class="form-select" (change)="selectTo($event)"
+      <select class="form-select" (change)="selectTo($event)"
             #to="ngModel" [(ngModel)]="operation.to" name="to">
             <option selected value="" disabled>Wybierz konto</option>
-            <ng-template [ngIf]="operationType === 'active'"
+            <ng-template [ngIf]="operationType === 'active' || operationType === 'active_passive_up'"
                 [ngIfElse]="passive">
-                <option *ngFor="let account of getActiveAccounts()"
-                    [value]="account._id">
-                    {{account.name}}
-                </option>
+              <ng-container  *ngFor="let account of getActiveAccounts()">
+                <option *ngIf="account._id !== operation.from"
+                  [value]="account._id">
+                  {{account.name}}
+                </option></ng-container>
             </ng-template>
             <ng-template #passive>
-                <option *ngFor="let account of getPassiveAccounts()"
+              <ng-container *ngFor="let account of getPassiveAccounts()">
+                <option *ngIf="account._id !== operation.from"
                     [value]="account._id">
                     {{account.name}}
-                </option>
+                </option></ng-container>
             </ng-template>
         </select>
         <div class="form-floating mb-3">

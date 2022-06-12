@@ -43,11 +43,18 @@ router.route('/add').post((req,res) => {
     const newBalance = new Balance(
         {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
     )
-    req.body.accountsActive.forEach(account => {
+    req.body.accountsActive.forEach(async account => {
         newBalance.accountsActive.push(account)
+        let currentAccount = await Account.findById(account._id)
+        currentAccount.initialBalance = account.initialBalance
+        currentAccount.save()
     })
-    req.body.accountsPassive.forEach(account => 
-        newBalance.accountsPassive.push(account))
+    req.body.accountsPassive.forEach(async account =>{
+        newBalance.accountsPassive.push(account)
+        let currentAccount = await Account.findById(account._id)
+        currentAccount.initialBalance = account.initialBalance
+        currentAccount.save()
+    })
 
     newBalance.accountsActive.forEach(account => {
         sumAct += account.initialBalance
@@ -55,6 +62,8 @@ router.route('/add').post((req,res) => {
     newBalance.accountsPassive.forEach(account => {
         sumPas += account.initialBalance
     })
+
+
 
     newBalance.sumActive = sumAct
     newBalance.sumPassive = sumPas
