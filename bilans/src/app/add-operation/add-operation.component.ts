@@ -82,6 +82,6 @@ export class AddOperationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dataService.addOperation(this.operation).subscribe()
+    this.dataService.addOperation(this.operation, this.balance._id).subscribe()
   }
 }

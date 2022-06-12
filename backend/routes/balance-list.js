@@ -33,7 +33,7 @@ router.route('/getSchema').get((req, res) => {
     res.json(newBalance)
 })
 
-router.route('/add').post((req,res) => {
+router.route('/add').post(async (req,res) => {
     const name = req.body.name
     const date = req.body.date
     const accountsDefault = []
@@ -48,6 +48,16 @@ router.route('/add').post((req,res) => {
     })
     req.body.accountsPassive.forEach(account => 
         newBalance.accountsPassive.push(account))
+    
+    await newBalance.accountsActive.reduce(async (promise, account) => {
+        await promise
+        await updateAccount(account._id, account.initialBalance)
+    }, Promise.resolve())
+
+    await newBalance.accountsPassive.reduce(async (promise, account) => {
+        await promise
+        await updateAccount(account._id, account.initialBalance)
+    }, Promise.resolve())
 
     newBalance.accountsActive.forEach(account => {
         sumAct += account.initialBalance
@@ -78,4 +88,10 @@ router.route('/delete/:balanceId').delete((req,res) =>{
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
+async function updateAccount(accountId, initialBalance) {
+    var account = await Account.findById(accountId)
+    account.initialBalance = initialBalance
+    account.save()
+    return account
+}
 module.exports = router
