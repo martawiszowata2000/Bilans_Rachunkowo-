@@ -43,21 +43,31 @@ router.route('/add').post(async (req,res) => {
     const newBalance = new Balance(
         {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
     )
-    req.body.accountsActive.forEach(account => {
+    req.body.accountsActive.forEach(async account => {
         newBalance.accountsActive.push(account)
+        let currentAccount = await Account.findById(account._id)
+        currentAccount.initialBalance = account.initialBalance
+        currentAccount.save()
+      await updateAccount(account._id, account.initialBalance
     })
-    req.body.accountsPassive.forEach(account => 
-        newBalance.accountsPassive.push(account))
-    
-    await newBalance.accountsActive.reduce(async (promise, account) => {
-        await promise
-        await updateAccount(account._id, account.initialBalance)
-    }, Promise.resolve())
+    req.body.accountsPassive.forEach(async account =>{
+        newBalance.accountsPassive.push(account)
+        let currentAccount = await Account.findById(account._id)
+        currentAccount.initialBalance = account.initialBalance
+        currentAccount.save()
+        await updateAccount(account._id, account.initialBalance
+    })
 
-    await newBalance.accountsPassive.reduce(async (promise, account) => {
-        await promise
-        await updateAccount(account._id, account.initialBalance)
-    }, Promise.resolve())
+//     await newBalance.accountsActive.reduce(async (promise, account) => {
+//         await promise
+//         await updateAccount(account._id, account.initialBalance)
+//     }, Promise.resolve())
+
+//     await newBalance.accountsPassive.reduce(async (promise, account) => {
+//         await promise
+//         await updateAccount(account._id, account.initialBalance)
+//     }, Promise.resolve())
+
 
     newBalance.accountsActive.forEach(account => {
         sumAct += account.initialBalance
@@ -65,6 +75,8 @@ router.route('/add').post(async (req,res) => {
     newBalance.accountsPassive.forEach(account => {
         sumPas += account.initialBalance
     })
+
+
 
     newBalance.sumActive = sumAct
     newBalance.sumPassive = sumPas
