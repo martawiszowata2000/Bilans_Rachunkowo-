@@ -15,7 +15,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
-import { MatInputModule } from "@angular/material/input"
+import { MatInputModule } from "@angular/material/input";
+import { OperationComponent } from './operation/operation.component'
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { MatInputModule } from "@angular/material/input"
     MainLayoutComponent,
     BalanceComponent,
     AddOperationComponent,
-    AddBalanceComponent
+    AddBalanceComponent,
+    OperationComponent
   ],
   imports: [
     BrowserModule,

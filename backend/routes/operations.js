@@ -33,12 +33,13 @@ router.route('/add').post(async (req, res) => {
     newOperation.save()
         .then(() => res.json('Operation added!'))
         .catch(err => res.status(400).json('Error: ' + err))
+
 })
 
 router.route('/update/:operationId').put((req, res) => {
     Operation.findByIdAndUpdate(req.params.operationId, req.body)
-    .then(() => { res.json('Operation updated!')})
-    .catch(err => res.status(400).json('Error' + err))
+        .then(() => { res.json('Operation updated!')})
+        .catch(err => res.status(400).json('Error' + err))
 })
 
 router.route('/delete/:operationId').delete((req, res) => {
@@ -46,14 +47,16 @@ router.route('/delete/:operationId').delete((req, res) => {
         .then(() => { res.json('Operation deleted!')})
         .catch(err => res.status(400).json('Error' + err))
 
-        //to sie pozniej doda bo z tego co czytalam to mongodb chyba nie wspiera kaskadowego usuwania :<<<
+    //to sie pozniej doda bo z tego co czytalam to mongodb chyba nie wspiera kaskadowego usuwania :<<<
     // Account.debit.findByIdAndDelete(req.params.operationId)
     //     .then(() => { res.json('Operation deleted!')})
     //     .catch(err => res.status(400).json('Error' + err))
     // Account.credit.findByIdAndDelete(req.params.operationId)
     //     .then(() => { res.json('Operation deleted!')})
     //     .catch(err => res.status(400).json('Error' + err))
-        
+
 })
+
+
 
 module.exports = router
