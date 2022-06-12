@@ -3,6 +3,52 @@
     class="btn btn-secondary btn-sm rounded-3">
     Wróć do bilansu
 </button>
-<h1>{{ getAccountName() }}</h1>
-<h6>Saldo początkowe: {{ getAccountInitialBalance() }}</h6>
-<h6>Saldo: {{ getAccountBalance() }}</h6>
+<div class="row text-center mb-4">
+    <h1>{{ getAccountName() }}</h1>
+    <h6>Saldo początkowe: {{ getAccountInitialBalance() }}</h6>
+    <h6>Saldo: {{ getAccountBalance() }}</h6>
+</div>
+
+<div class="row">
+    <div class="col-6 text-center">
+        <h3>Winien</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Kwota</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let operation of getOperationsCredit()"
+                (click)="goToOperationDetails(operation)">
+                <td>
+                    {{ getOperationAmount(operation) }}
+                </td>
+                <td>{{ getOperationDate(operation) }}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="col-6">
+        <h3>Ma</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Kwota</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let operation of getOperationsDebit()"
+                (click)="goToOperationDetails(operation)">
+                <td>
+                    {{ getOperationAmount(operation) }}
+                </td>
+                <td>{{ getOperationDate(operation) }}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+

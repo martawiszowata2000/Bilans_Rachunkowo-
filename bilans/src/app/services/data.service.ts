@@ -41,8 +41,8 @@ export class DataService {
     return this.http.get<Balance>(this.url(`balanceList/getSchema`))
   }
 
-  addBalance(balance: Balance): Observable<Balance> {
-    return this.http.post<Balance>(this.url(`balanceList/add`), balance)
+  addBalance(balance: Balance): Observable<string> {
+    return this.http.post<string>(this.url(`balanceList/add`), balance)
   }
 
   // updateBalance(balance: Balance): Observable<Balance>{
