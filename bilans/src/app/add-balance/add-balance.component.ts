@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Account, Balance } from 'app/model';
 import { DataService } from 'app/services/data.service';
+import { catchError, of, tap } from 'rxjs';
 
 
 
@@ -16,6 +17,7 @@ export class AddBalanceComponent implements OnInit {
   balance = new Balance()
   activeAccounts: Account[]
   passiveAccounts: Account[]
+  areTotalsDifferent = false
   constructor(private dataService: DataService,
               private router: Router) {
   }
@@ -38,8 +40,16 @@ export class AddBalanceComponent implements OnInit {
   }
 
   onSubmit(){
-    this.dataService.addBalance(this.balance).subscribe( _ =>
-      this.router.navigate(['/list'])
+    this.dataService.addBalance(this.balance).pipe(
+      catchError(err => of(`${err}`)),
+      tap(res => {
+        if(res['error'] === 'Totals are different') 
+          this.areTotalsDifferent = true
+      })
     )
+    .subscribe(res => {
+      if(res['error'] !== "Totals are different")
+        this.router.navigate([`/balance/${res}`])
+    })
   }
 }

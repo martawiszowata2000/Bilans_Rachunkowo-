@@ -34,7 +34,7 @@ export class BalanceComponent implements OnInit {
   }
 
   getBalanceDate(){
-    const date = new Date( this.balance.date)
+    const date = new Date( this.balance?.date)
     return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate()
 
   }

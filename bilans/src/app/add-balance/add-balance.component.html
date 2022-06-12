@@ -4,22 +4,24 @@
   Wróć do listy bilansów
 </button>
 <h1 class="text-center">Nowy bilans</h1>
-<form #f="ngForm" (ngSubmit)="onSubmit()">
+<form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()">
 <div class="row justify-content-around">
   <div class="col-4 text-center">
     <h3>Dane jednostki: </h3>
     <input type="text" [(ngModel)]="balance.name" minlength="5" placeholder="Nazwa"
-      name="balanceName" #balanceName="ngModel" class="input-style">
-    <div *ngIf="balanceName.errors?.['minlength']" class="error-message">
-        Nazwa musi mieć co najmniej 5 znaków.
+      name="balanceName" #balanceName="ngModel" class="input-style" required>
+    <div *ngIf="f.submitted && balanceName.invalid">
+        <span class="error-message" *ngIf="balanceName.errors?.['required']">Nazwa jest wymagana.</span>
+        <span class="error-message" *ngIf="balanceName.errors?.['minlength']">Nazwa musi mieć co najmniej 5 znaków.</span>
     </div>
   </div>
   <div class="col-4 text-center">
     <h3>Jednostka obliczeniowa: </h3>
     <input type="text" [(ngModel)]="balance.currency" minlength="2" placeholder="np. zł"
-      name="balanceCurrency" #balanceCurrency="ngModel" class="input-style">
-    <div *ngIf="balanceCurrency.errors?.['minlength']" class="error-message">
-        Jednostka musi mieć co najmniej 2 znaki.
+      name="balanceCurrency" #balanceCurrency="ngModel" class="input-style" required>
+      <div *ngIf="f.submitted && balanceCurrency.invalid">
+        <span class="error-message" *ngIf="balanceCurrency.errors?.['required']">Jednostka jest wymagana.</span>
+        <span class="error-message" *ngIf="balanceCurrency.errors?.['minlength']">Jednostka musi mieć co najmniej 2 znaki.</span>
     </div>
   </div>
   <div class="col-4 text-center">
@@ -82,4 +84,7 @@
   </div>
 
   <button type="submit" class="btn btn-success rounded-3">Dodaj</button>
+  <div *ngIf="areTotalsDifferent">
+    <span class="error-message">Sumy aktywów i pasywów nie mogą być różne.</span>
+  </div>
 </form>
