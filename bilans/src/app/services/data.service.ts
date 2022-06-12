@@ -57,8 +57,8 @@ export class DataService {
     return this.http.get<Account>(this.url(`accounts/${id}`))
   }
 
-  addOperation(operation: Operation): Observable<Operation> {
-    return this.http.post<Operation>(this.url(`operations/add`), operation)
+  addOperation(operation: Operation, balanceId: string): Observable<Operation> {
+    return this.http.post<Operation>(this.url(`operations/add/${balanceId}`), operation)
   }
 
   getOperationTypes() {
