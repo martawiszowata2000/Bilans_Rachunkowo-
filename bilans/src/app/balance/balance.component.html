@@ -14,9 +14,9 @@
   Usuń bilans
 </button>
 
-<p>--dane jednostki--</p>
-<h1>Bilans</h1>
-<p class="lead">Sporządzony na dzień ....</p>
+<p>Bilans</p>
+<h1>{{getBalanceName()}}</h1>
+<p class="lead">Sporządzony na dzień: {{ getBalanceDate()}}</p>
 <p>Jednostka obliczeniowa: {{ getCurrency() }}</p>
 <div class="container-fluid">
     <div class="row">
@@ -25,8 +25,10 @@
             <table class="table">
                 <thead>
                   <tr>
+                    <th></th>
                     <th scope="col">Aktywa</th>
                     <th scope="col">Stan na dzień kończący</th>
+                    <th scope="col">Saldo początkowe</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -39,6 +41,7 @@
                       </a>
                     </td>
                     <td>{{ account.balance }}</td>
+                    <td>{{ account.initialBalance }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -48,8 +51,10 @@
             <table class="table">
                 <thead>
                   <tr>
+                    <th scope="col"></th>
                     <th scope="col">Pasywa</th>
                     <th scope="col">Stan na dzień kończący</th>
+                    <th scope="col">Saldo początkowe</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -62,6 +67,7 @@
                       </a>
                     </td>
                     <td>{{ account.balance }}</td>
+                    <td>{{ account.initialBalance }}</td>
                   </tr>
                 </tbody>
               </table>

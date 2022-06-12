@@ -19,15 +19,24 @@ export class BalanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      tap( params => this.balanceId = params['balanceId']),
+      tap( params => this.balanceId = params['balanceId']), //tutaj dodaje sie do parms
       switchMap( _ => this.dataService.getBalance(this.balanceId))
     ).subscribe( balance => {
       this.balance = balance
       console.log(this.balance)
-
       console.log(this.balance?.accountsActive)
 
     })
+  }
+
+  getBalanceName(){
+    return this.balance?.name
+  }
+
+  getBalanceDate(){
+    const date = new Date( this.balance.date)
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate()
+
   }
 
   getCurrency() {
@@ -51,6 +60,6 @@ export class BalanceComponent implements OnInit {
   deleteBalance() {
     this.dataService.deleteBalance(this.balance).subscribe(_ =>
       this.router.navigate(['/list']) )
-    
+
   }
 }
