@@ -78,4 +78,9 @@ export class DataService {
     return this.http.put<string>(
       this.url(`operations/delete/${balance._id}/${account._id}/${operation._id}`), operation)
   }
+  
+  updateOperation(operation: Operation, balanceId: string): Observable<Operation>{
+    return this.http.put<Operation>(
+      this.url(`operations/update/${operation._id}`), {operation, balanceId})
+  }
 }

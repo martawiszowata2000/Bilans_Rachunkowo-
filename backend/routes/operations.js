@@ -63,9 +63,69 @@ router.route('/add/:balanceId').post(async (req, res) => {
         .then((res.json(balance)))
 })
 
-router.route('/update/:operationId').put((req, res) => {
-    Operation.findByIdAndUpdate(req.params.operationId, req.body)
-        .then(() => { res.json('Operation updated!')})
+router.route('/update/:operationId').put(async (req, res) => {
+    var balance = await Balance.findById(req.body.balanceId)
+    const operationType = req.body.operation.operationType
+    const from = req.body.operation.from
+    const to = req.body.operation.to
+    const amount = req.body.operation.amount
+    const operation = req.body.operation
+
+    console.log(balance)
+    console.log(operation)
+    console.log(operationType)
+    //jesli konto 'z' jest aktywne
+    if (operationType === 'active' || operationType === 'active_passive_down') {
+        balance.accountsActive.map(account => {
+            if(account._id.toString() == from){
+                account.credit.map(op => {
+                    if(op._id.toString() == operation._id){
+                        return op
+                    }
+                })
+            }
+        })
+    }
+    //jesli konto 'z' jest pasywne
+    else {
+        balance.accountsPassive.map(account => {
+            if(account._id.toString() == from){
+                account.credit.map(op => {
+                    if(op._id.toString() == operation._id){
+                        return op
+                    }
+                })
+            }
+        })
+    }
+    //jesli konto 'do' jest aktywne
+    if(operationType === 'active' || operationType === 'active_passive_up'){
+        balance.accountsActive.map(account => {
+            if(account._id.toString() == to){
+                account.debit.map(op => {
+                    if(op._id.toString() == operation._id){
+                        return op
+                    }
+                })
+            }
+        })
+    }
+    //jesli konto 'do' jest pasywne
+    else{
+        balance.accountsPassive.map(account => {
+            if(account._id.toString() == to){
+                account.debit.map(op => {
+                    if(op._id.toString() == operation._id){
+                        return op
+                    }
+                })
+            }
+        })
+    }
+
+    balance = updateBalanceAccounts(balance)
+    Balance.findByIdAndUpdate(balance._id.toString(), balance)
+        .then((res.json(balance)))
         .catch(err => res.status(400).json('Error' + err))
 })
 
