@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Account, Operation } from 'app/model';
+import { Account, Balance, Operation } from 'app/model';
 import { DataService } from 'app/services/data.service';
 import { map, switchMap, tap } from 'rxjs';
 
@@ -12,15 +12,25 @@ import { map, switchMap, tap } from 'rxjs';
 export class AccountBalanceComponent implements OnInit {
 
   account: Account
+  balance: Balance
+  accountId: string
+  balanceId: string
   constructor(private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      map(params => { return params.get('accountId')}),
-      switchMap(id => this.dataService.getAccountById(id)),
-      tap(account => this.account = account)
+      tap(params => { 
+        this.accountId = params.get('accountId')
+        this.balanceId = params.get('balanceId')
+      }),
+      switchMap(id => this.dataService.getBalance(this.balanceId)),
+      tap(balance => { 
+        this.balance = balance
+        this.account = this.balance.accountsActive.find(acc => acc._id === this.accountId) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.accountId)
+      })
     ).subscribe()
   }
 

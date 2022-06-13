@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Account, Balance, Operation} from "../model";
-import {switchMap, tap} from "rxjs";
+import {map, switchMap, tap} from "rxjs";
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -11,28 +11,49 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class EditOperationComponent implements OnInit {
 
-  operation: Operation
   operationTypesMap: Map<string, string>
   operationTypesKeys: string[]
   operationType: string
   isTypeSelected = false
+  account: Account
   balance: Balance
-  fromAccount: Account
-  toAccount: Account
+  operation: Operation
+  accountTo: Account
+  accountFrom: Account
+  hasErrors = false
+  messageError: string
+  accountId: string
+  balanceId: string
+  operationId: string
+
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
-    this.operationTypesMap = this.dataService.getOperationTypes()
-    this.operationTypesKeys = this.dataService.getOperationKeys()
-
     this.route.paramMap.pipe(
-      switchMap(params =>
-        this.dataService.getBalance(params.get('balanceId'))),
-      tap(balance => this.balance = balance)
-    )
-      .subscribe()
+      tap(params => {
+        this.accountId = params.get('accountId')
+        this.balanceId = params.get('balanceId')
+        this.operationId = params.get('operationId')
+      }),
+      switchMap(id => this.dataService.getBalance(this.balanceId)),
+      tap(balance => {
+        this.balance = balance
+        this.account = this.balance.accountsActive.find(acc => acc._id === this.accountId) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.accountId)
+
+        this.operation = this.account.credit.find(op => op._id === this.operationId) ||
+          this.account.debit.find(op => op._id === this.operationId)
+
+        this.accountFrom = this.balance.accountsActive.find(acc => acc._id === this.operation.from) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.operation.from)
+
+        this.accountTo = this.balance.accountsActive.find(acc => acc._id === this.operation.to) ||
+          this.balance.accountsPassive.find(acc => acc._id ===this.operation.to)
+      })
+    ).subscribe()
   }
 
   selectType(event) {
@@ -41,20 +62,20 @@ export class EditOperationComponent implements OnInit {
   }
 
   selectFrom(event) {
-    if(this.operationType === 'passive')
-      this.fromAccount = this.getPassiveAccounts().find(el =>
+    if (this.operationType === 'passive')
+      this.accountFrom = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.fromAccount = this.getActiveAccounts().find(el =>
+      this.accountFrom = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
   selectTo(event) {
-    if(this.operationType === 'active')
-      this.toAccount = this.getActiveAccounts().find(el =>
+    if (this.operationType === 'active')
+      this.accountTo = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.toAccount = this.getPassiveAccounts().find(el =>
+      this.accountTo = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
@@ -81,4 +102,37 @@ export class EditOperationComponent implements OnInit {
     return passiveAccounts
   }
 
+  getOperationDate(){
+    return new Date(this.operation.createdAt)
+      .toLocaleString("pl-PL", {dateStyle: 'medium', timeStyle:'short'})
+  }
+
+  getOperationType(){
+    switch (this.operation.operationType) {
+      case 'active':
+        return 'aktywna'
+      case 'passive':
+        return 'pasywna'
+      case 'active_passive_up':
+        return 'aktywno-pasywna zwiększająca'
+      case 'active_passive_down':
+        return 'aktywno-pasywna zmniejszająca'
+      default:
+        return 'typ operacji nieznany'
+    }
+  }
+
+  onSubmit() {
+    if (+this.operation.amount <= 0) {
+      this.hasErrors = true
+      this.messageError = 'Kwota musi być większa niż 0!'
+    } else if (!this.operation.amount) {
+      this.hasErrors = true
+      this.messageError = 'Musisz podać kwotę!'
+    } else {
+      this.dataService.updateOperation(this.operation, this.balance._id).subscribe()
+      this.router.navigate([`balance/${this.balance._id}`])
+    }
+
+  }
 }
