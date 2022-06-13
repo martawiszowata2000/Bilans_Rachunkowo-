@@ -11,16 +11,20 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class EditOperationComponent implements OnInit {
 
-  operation: Operation
   operationTypesMap: Map<string, string>
   operationTypesKeys: string[]
   operationType: string
   isTypeSelected = false
+  account: Account
   balance: Balance
-  fromAccount: Account
-  toAccount: Account
+  operation: Operation
+  accountTo: Account
+  accountFrom: Account
   hasErrors = false
   messageError: string
+  accountId: string
+  balanceId: string
+  operationId: string
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -28,23 +32,26 @@ export class EditOperationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.operationTypesMap = this.dataService.getOperationTypes()
-    this.operationTypesKeys = this.dataService.getOperationKeys()
-
     this.route.paramMap.pipe(
-      switchMap(params =>
-        this.dataService.getBalance(params.get('balanceId'))),
-      tap(balance => this.balance = balance)
-    )
-      .subscribe()
-    this.route.paramMap.pipe(
-      map(params => { return params.get('operationId')}),
-      switchMap(id => this.dataService.getOperationById(id)),
-      tap(operation => {
-        this.operation = operation
-        this.dataService.getAccountById(this.operation.from).subscribe(acc => this.fromAccount = acc)
-        this.dataService.getAccountById(this.operation.to).subscribe(acc => this.toAccount = acc)
+      tap(params => {
+        this.accountId = params.get('accountId')
+        this.balanceId = params.get('balanceId')
+        this.operationId = params.get('operationId')
+      }),
+      switchMap(id => this.dataService.getBalance(this.balanceId)),
+      tap(balance => {
+        this.balance = balance
+        this.account = this.balance.accountsActive.find(acc => acc._id === this.accountId) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.accountId)
 
+        this.operation = this.account.credit.find(op => op._id === this.operationId) ||
+          this.account.debit.find(op => op._id === this.operationId)
+
+        this.accountFrom = this.balance.accountsActive.find(acc => acc._id === this.operation.from) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.operation.from)
+
+        this.accountTo = this.balance.accountsActive.find(acc => acc._id === this.operation.to) ||
+          this.balance.accountsPassive.find(acc => acc._id ===this.operation.to)
       })
     ).subscribe()
   }
@@ -56,19 +63,19 @@ export class EditOperationComponent implements OnInit {
 
   selectFrom(event) {
     if (this.operationType === 'passive')
-      this.fromAccount = this.getPassiveAccounts().find(el =>
+      this.accountFrom = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.fromAccount = this.getActiveAccounts().find(el =>
+      this.accountFrom = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
   selectTo(event) {
     if (this.operationType === 'active')
-      this.toAccount = this.getActiveAccounts().find(el =>
+      this.accountTo = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
     else
-      this.toAccount = this.getPassiveAccounts().find(el =>
+      this.accountTo = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
   }
 
@@ -124,7 +131,6 @@ export class EditOperationComponent implements OnInit {
       this.messageError = 'Musisz podać kwotę!'
     } else {
       this.dataService.updateOperation(this.operation, this.balance._id).subscribe()
-      console.log(this.operation)
       this.router.navigate([`balance/${this.balance._id}`])
     }
 

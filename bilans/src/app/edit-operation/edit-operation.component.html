@@ -1,5 +1,5 @@
 <button type="button"
-        routerLink="../../"
+        routerLink="../"
         class="btn btn-secondary btn-sm rounded-3">
   Anuluj
 </button>
@@ -27,8 +27,8 @@
       <div *ngIf="hasErrors">
         <span class="error-message">{{messageError}}</span>
       </div></td>
-      <td>{{ fromAccount.name }}</td>
-      <td>{{ toAccount.name }}</td>
+      <td>{{ accountFrom.name }}</td>
+      <td>{{ accountTo.name }}</td>
       <td>{{ getOperationDate() }}</td>
     </tr>
     </tbody>
