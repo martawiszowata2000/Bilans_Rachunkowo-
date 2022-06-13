@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Account, Operation} from "../model";
+import {Account, Balance, Operation} from "../model";
 import {map, retry, switchMap, tap} from "rxjs";
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -11,28 +11,46 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class OperationComponent implements OnInit {
 
+  account: Account
+  balance: Balance
   operation: Operation
   accountTo: Account
   accountFrom: Account
+  accountId: string
+  balanceId: string
+  operationId: string
+
   constructor(private dataService: DataService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      map(params => { return params.get('operationId')}),
-      switchMap(id => this.dataService.getOperationById(id)),
-      tap(operation => {
-        this.operation = operation
-        this.dataService.getAccountById(this.operation.from).subscribe(acc => this.accountFrom = acc)
-        this.dataService.getAccountById(this.operation.to).subscribe(acc => this.accountTo = acc)
+      tap(params => { 
+        this.accountId = params.get('accountId')
+        this.balanceId = params.get('balanceId')
+        this.operationId = params.get('operationId')
+      }),
+      switchMap(id => this.dataService.getBalance(this.balanceId)),
+      tap(balance => { 
+        this.balance = balance
+        this.account = this.balance.accountsActive.find(acc => acc._id === this.accountId) ||
+          this.balance.accountsPassive.find(acc => acc._id === this.accountId)
 
+          this.operation = this.account.credit.find(op => op._id === this.operationId) ||
+          this.account.debit.find(op => op._id === this.operationId)
+
+          this.accountFrom = this.balance.accountsActive.find(acc => acc._id === this.operation.from) ||
+            this.balance.accountsPassive.find(acc => acc._id === this.operation.from)
+
+          this.accountTo = this.balance.accountsActive.find(acc => acc._id === this.operation.to) ||
+            this.balance.accountsPassive.find(acc => acc._id ===this.operation.to)
       })
     ).subscribe()
-
   }
+
   getOperationType(){
-    switch (this.operation.operationType) {
+    switch (this.operation?.operationType) {
       case 'active':
         return 'aktywna'
       case 'passive':
@@ -46,7 +64,7 @@ export class OperationComponent implements OnInit {
     }
   }
   getOperationDate(){
-    return new Date(this.operation.createdAt)
+    return new Date(this.operation?.createdAt)
       .toLocaleString("pl-PL", {dateStyle: 'medium', timeStyle:'short'})
   }
 
@@ -55,4 +73,13 @@ export class OperationComponent implements OnInit {
       this.router.navigate(["../../"]))
   }
 
+  getOperationAmount() {
+    return this.operation?.amount
+  }
+  getFromName() {
+    return this.accountFrom?.name
+  }
+  getToName() {
+    return this.accountTo?.name
+  }
 }
