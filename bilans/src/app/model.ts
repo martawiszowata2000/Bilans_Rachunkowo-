@@ -24,7 +24,7 @@ export interface Balance { //bilans konta
 
 export class Account { //konto bilansowe
     constructor(
-        _id: number,
+        _id: string,
         path: string,
         name: string,
         balance: number,
@@ -35,7 +35,7 @@ export class Account { //konto bilansowe
 }
 
 export interface Account { //konto bilansowe
-    _id: number,
+    _id: string,
     path: string,
     name: string,
     balance: number,

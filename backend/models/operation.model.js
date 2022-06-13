@@ -7,7 +7,8 @@ const operationSchema = new Schema({
     operationType: { type: String, required: true },
     from: { type: Schema.Types.ObjectId , required: true },
     to: { type: Schema.Types.ObjectId, required: true },
-    amount: { type: Number, required: true }
+    amount: { type: Number, required: true },
+    createdAt: { type: Date }
 }, {
     timestamps: true
 })

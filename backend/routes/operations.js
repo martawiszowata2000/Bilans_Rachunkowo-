@@ -20,7 +20,8 @@ router.route('/add/:balanceId').post(async (req, res) => {
     const from = req.body.from
     const to = req.body.to
     const amount = req.body.amount
-    const newOperation = new Operation({operationType, from, to, amount})
+    const createdAt = req.body.createdAt
+    const newOperation = new Operation({operationType, from, to, amount, createdAt})
 
     var balance = await Balance.findById(req.params.balanceId)
 
