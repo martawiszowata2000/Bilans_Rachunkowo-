@@ -48,6 +48,13 @@
                     <td>{{ account.initialBalance }}</td>
                     <td>{{ account.balance }}</td>
                   </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>
+                        SUMA
+                    </td>
+                    <td>{{ getSumActive() }}</td>
+                  </tr>
                 </tbody>
               </table>
         </div>
@@ -73,6 +80,13 @@
                     </td>
                     <td>{{ account.initialBalance }}</td>
                     <td>{{ account.balance }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>
+                        SUMA
+                    </td>
+                    <td>{{ getSumPassive() }}</td>
                   </tr>
                 </tbody>
               </table>

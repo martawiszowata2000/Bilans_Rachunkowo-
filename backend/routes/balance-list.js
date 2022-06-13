@@ -20,14 +20,12 @@ router.route('/getSchema').get((req, res) => {
         const path = el.path
         const name = el.name
         const account = new Account({path, name, defaultSum, defaultOperations, defaultOperations})
-        account.save()
         newBalance.accountsActive.push(account)
     }
     for (const el of jsonPassive) {
         const path = el.path
         const name = el.name
         const account = new Account({path, name, defaultSum, defaultOperations, defaultOperations})
-        account.save()
         newBalance.accountsPassive.push(account)
     }
     res.json(newBalance)
@@ -44,39 +42,22 @@ router.route('/add').post(async (req,res) => {
         {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
     )
     req.body.accountsActive.forEach(async account => {
-        newBalance.accountsActive.push(account)
-        let currentAccount = await Account.findById(account._id)
-        currentAccount.initialBalance = account.initialBalance
-        currentAccount.save()
-      await updateAccount(account._id, account.initialBalance)
+
+        account.balance = account.initialBalance
+        newBalance.accountsActive.push(new Account(account))
     })
     req.body.accountsPassive.forEach(async account =>{
-        newBalance.accountsPassive.push(account)
-        let currentAccount = await Account.findById(account._id)
-        currentAccount.initialBalance = account.initialBalance
-        currentAccount.save()
-        await updateAccount(account._id, account.initialBalance)
+        account.balance = account.initialBalance
+        newBalance.accountsPassive.push(new Account(account))
+
     })
-
-//     await newBalance.accountsActive.reduce(async (promise, account) => {
-//         await promise
-//         await updateAccount(account._id, account.initialBalance)
-//     }, Promise.resolve())
-
-//     await newBalance.accountsPassive.reduce(async (promise, account) => {
-//         await promise
-//         await updateAccount(account._id, account.initialBalance)
-//     }, Promise.resolve())
-
 
     newBalance.accountsActive.forEach(account => {
-        sumAct += account.initialBalance
+        sumAct += account.balance
     })
     newBalance.accountsPassive.forEach(account => {
-        sumPas += account.initialBalance
+        sumPas += account.balance
     })
-
-
 
     newBalance.sumActive = sumAct
     newBalance.sumPassive = sumPas
@@ -99,11 +80,4 @@ router.route('/delete/:balanceId').delete((req,res) =>{
         .then(() => res.json("Balance deleted!"))
         .catch(err => res.status(400).json('Error: ' + err))
 })
-
-async function updateAccount(accountId, initialBalance) {
-    var account = await Account.findById(accountId)
-    account.initialBalance = initialBalance
-    account.save()
-    return account
-}
 module.exports = router

@@ -62,48 +62,63 @@ router.route('/update/:operationId').put((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-router.route('/delete/:operationId').delete(async (req, res) => {
-    const operation = Operation.findByIdAndDelete(req.params.operationId)
-        .then(() => {
-            res.json('Operation deleted!')
-        })
-        .catch(err => res.status(400).json('Error' + err))
+// router.route('/delete/:operationId').delete(async (req, res) => {
+//     const operation = Operation.findByIdAndDelete(req.params.operationId)
+//         .then(() => {
+//             res.json('Operation deleted!')
+//         })
+//         .catch(err => res.status(400).json('Error' + err))
 
-    //jesli konto 'z' jest aktywne
-    if (operation.operationType === 'active' || operation.operationType === 'active_passive_down') {
-        const accountFrom = await Account.findById(operation.from)
-        accountFrom.credit.findByIdAndDelete(req.params.operationId)
-        accountFrom.save()
+//     //jesli konto 'z' jest aktywne
+//     if (operation.operationType === 'active' || operation.operationType === 'active_passive_down') {
+//         const accountFrom = await Account.findById(operation.from)
+//         accountFrom.credit.findByIdAndDelete(req.params.operationId)
+//         accountFrom.save()
 
 
-        // Account.debit.findByIdAndDelete(req.params.operationId)
-        //     .then(() => {
-        //         res.json('Operation deleted!')
-        //     })
-        //     .catch(err => res.status(400).json('Error' + err))
-    }
-    //jesli konto 'z' jest pasywne
-    else {
-        const accountFrom = await Account.findById(operation.from)
-        accountFrom.debit.findByIdAndDelete(req.params.operationId)
-        accountFrom.save()
-    }
-    //jesli konto 'do' jest aktywne
-    if(operation.operationType === 'active' || operation.operationType === 'active_passive_up'){
-        const accountTo = await Account.findById(operation.to)
-        accountTo.debit.findByIdAndDelete(req.params.operationId)
-        accountTo.save()
-    }
-    //jesli konto 'do' jest pasywne
-    else {
-        const accountTo = await Account.findById(operation.to)
-        accountTo.debit.findByIdAndDelete(req.params.operationId)
-        accountTo.save()
+//         // Account.debit.findByIdAndDelete(req.params.operationId)
+//         //     .then(() => {
+//         //         res.json('Operation deleted!')
+//         //     })
+//         //     .catch(err => res.status(400).json('Error' + err))
+//     }
+//     //jesli konto 'z' jest pasywne
+//     else {
+//         const accountFrom = await Account.findById(operation.from)
+//         accountFrom.debit.findByIdAndDelete(req.params.operationId)
+//         accountFrom.save()
+//     }
+//     //jesli konto 'do' jest aktywne
+//     if(operation.operationType === 'active' || operation.operationType === 'active_passive_up'){
+//         const accountTo = await Account.findById(operation.to)
+//         accountTo.debit.findByIdAndDelete(req.params.operationId)
+//         accountTo.save()
+//     }
+//     //jesli konto 'do' jest pasywne
+//     else {
+//         const accountTo = await Account.findById(operation.to)
+//         accountTo.debit.findByIdAndDelete(req.params.operationId)
+//         accountTo.save()
     }
         // Account.credit.findByIdAndDelete(req.params.operationId)
     //     .then(() => { res.json('Operation deleted!')})
     //     .catch(err => res.status(400).json('Error' + err))
 
+    router.route('/delete/:balanceId/:accountId/:operationId').delete((req, res) => {
+    const balance = Balance.findById(req.params.balanceId)
+    const account = balance.accountsActive.find(account => account._id === req.params.accountId) || 
+        balance.accountsPassive.find(account => account._id === req.params.accountId)
+    console.log(account)
+    account.debit = account.debit.filter(op => op._id !== req.params.operationId)
+    account.credit = account.credit.filter(op => op._id !== req.params.operationId)
+
+    balance.accountsActive.find(account => account._id === req.params.accountId) ?
+    balance.accountsActive.find(account => account._id === req.params.accountId) = account
+    : balance.accountsPassive.find(account => account._id === req.params.accountId) = account
+
+    balance.save()
+        .then(() => res.json("Operation deleted!"))
+        .catch(err => res.status(400).json('Error' + err))
 })
 
 async function  updateBalanceAccounts(balanceId) {
