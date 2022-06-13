@@ -76,9 +76,11 @@ export class OperationComponent implements OnInit {
   getOperationAmount() {
     return this.operation?.amount
   }
+
   getFromName() {
     return this.accountFrom?.name
   }
+  
   getToName() {
     return this.accountTo?.name
   }

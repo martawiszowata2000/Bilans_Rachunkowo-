@@ -172,5 +172,4 @@ function updateAccount(account, nestedAccounts, type) {
     }    
     return account
 }
-
 module.exports = router

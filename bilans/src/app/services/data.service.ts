@@ -46,10 +46,6 @@ export class DataService {
     return this.http.post<string>(this.url(`balanceList/add`), balance)
   }
 
-  // updateBalance(balance: Balance): Observable<Balance>{
-  //   return this.http.put<Balance>(this.url(`balanceList/${balance._id}`), balance)
-  // }
-
   deleteBalance(balance: Balance): Observable<string> {
     return this.http.delete<string>(this.url(`balanceList/delete/${balance._id}`))
   }
