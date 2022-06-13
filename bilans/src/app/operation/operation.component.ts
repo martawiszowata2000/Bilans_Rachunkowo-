@@ -50,6 +50,8 @@ export class OperationComponent implements OnInit {
       .toLocaleString("pl-PL", {dateStyle: 'medium', timeStyle:'short'})
   }
 
+
+
   deleteOperation(){
     this.dataService.deleteOperation(this.operation).subscribe( _ =>
       this.router.navigate(["../../"]))
