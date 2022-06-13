@@ -16,44 +16,54 @@ router.route('/:operationId').get((req, res) => {
 })
 
 router.route('/add/:balanceId').post(async (req, res) => {
-    const operationType = req.body.type
+    const operationType = req.body.operationType
     const from = req.body.from
     const to = req.body.to
     const amount = req.body.amount
     const newOperation = new Operation({operationType, from, to, amount})
 
 
-    const balance = await Balance.findById(req.params.balanceId)
+    var balance = await Balance.findById(req.params.balanceId)
     //accountFrom.credit.push(newOperation)
     //accountTo.debit.push(newOperation)
-
+    // console.log(newOperation)
     //jesli konto 'z' jest aktywne
-    if (newOperation.operationType === 'active' || newOperation.operationType === 'active_passive_down') {
-        const accountFrom = balance.accountActive.findById(from)
-        balance.accountsActive.accountFrom.credit.push(newOperation)
+    //jesli konto 'z' jest aktywne
+    if (operationType === 'active' || operationType === 'active_passive_down') {
+        balance.accountsActive.map(account => {
+            if(account._id.toString() == from){
+                account.credit.push(newOperation)
+            }
+        })
     }
     //jesli konto 'z' jest pasywne
-    else{
-        const accountFrom = balance.accountPassive.findById(from)
-        balance.accountsPassive.accountFrom.credit.push(newOperation)
+    else {
+        balance.accountsPassive.map(account => {
+            if(account._id.toString() == from){
+                account.credit.push(newOperation)
+            }
+        })
     }
     //jesli konto 'do' jest aktywne
-    if(newOperation.operationType === 'active' || newOperation.operationType === 'active_passive_up'){
-        const accountTo = balance.accountActive.findById(to)
-        balance.accountsActive.accountTo.debit.push(newOperation)
+    if(operationType === 'active' || operationType === 'active_passive_up'){
+        balance.accountsActive.map(account => {
+            if(account._id.toString() == to){
+                account.debit.push(newOperation)
+            }
+        })
     }
     //jesli konto 'do' jest pasywne
     else{
-        const accountTo = balance.accountPassive.findById(to)
-        balance.accountsPassive.accountTo.debit.push(newOperation)
+        balance.accountsPassive.map(account => {
+            if(account._id.toString() == to){
+                account.debit.push(newOperation)
+            }
+        })
     }
 
-    updateBalanceAccounts(req.params.balanceId)
-    balance.save()
-    newOperation.save()
-        .then(() => res.json('Operation added!'))
-        .catch(err => res.status(400).json('Error: ' + err))
-
+    balance = updateBalanceAccounts(balance)
+    Balance.findByIdAndUpdate(balance._id.toString(), balance)
+        .then((res.json(balance)))
 })
 
 router.route('/update/:operationId').put((req, res) => {
@@ -99,7 +109,6 @@ router.route('/update/:operationId').put((req, res) => {
 //         const accountTo = await Account.findById(operation.to)
 //         accountTo.debit.findByIdAndDelete(req.params.operationId)
 //         accountTo.save()
-    }
         // Account.credit.findByIdAndDelete(req.params.operationId)
     //     .then(() => { res.json('Operation deleted!')})
     //     .catch(err => res.status(400).json('Error' + err))
@@ -121,24 +130,27 @@ router.route('/update/:operationId').put((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-async function  updateBalanceAccounts(balanceId) {
-    //bierzemy konta z bilansu i tworzymy tymczasowa tablice kont
-    //posortowana po dlugosci sciezki malejaco
-       const balance = await Balance.findById(balanceId)
+function  updateBalanceAccounts(balance) {
 
-    await balance.accountsActive.reduce(async (promise, account) => {
-        await promise
-        await updateAccount(account._id, balance.accountsActive)
-    }, Promise.resolve())
 
-    //analogicznie dla pasywnych o ile aktywne dzialaja hehe
+    balance.accountsActive.map(account => {
+        var nestedAccounts = balance.accountsActive.filter(account => account.path.startsWith(account.path) && 
+        account.path.startsWith(account.path).length > account.path.length)
+        account = updateAccount(account, nestedAccounts)
+        return account
+    })
+    balance.accountsPassive.map(account => {
+        var nestedAccounts = balance.accountsPassive.filter(account => account.path.startsWith(account.path) && 
+        account.path.startsWith(account.path).length > account.path.length)
+        account = updateAccount(account, nestedAccounts)
+        return account
+    })
 
     //zwracamy bilans z zaktualizowanymi kontami, trzeba go pozniej zapisac do bazy
-    balance.save()
+    return balance
 }
 
-async function updateAccount(accountId, accountsActive) {
-    var account = await Account.findById(accountId)
+function updateAccount(account, nestedAccounts) {
     //sumujemy tylko operacje danego konta
     var sumCredit = 0
     var sumDebit = 0
@@ -149,19 +161,12 @@ async function updateAccount(accountId, accountsActive) {
         sumDebit += op.amount
     });
     //aktualizujemy saldo konta (debit, credit, initilaBalance)
-    account.balance = +(account.initialBalance + sumCredit - sumDebit)
-    // console.log(account.balance)
-
-    //tworzymy tablice zagniezdzonych kont
-    var nestedAccounts = accountsActive.filter(account => account.path.startsWith(account.path) && 
-    account.path.startsWith(account.path).length > account.path.length)
+    account.balance = +(account.initialBalance + Math.abs(sumCredit - sumDebit))
 
     //jezeli ma zagniezdzone konta to sumujemy ich salda i dodajemy do salda konta
     if(nestedAccounts.length > 0) {
         account.balance += nestedAccounts.reduce((a,b) => a.balance + b.balance,0) 
     }    
-    
-    account.save()
     return account
 }
 
