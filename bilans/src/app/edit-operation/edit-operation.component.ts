@@ -1,31 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import { Account, Balance, Operation } from 'app/model';
-import { DataService } from 'app/services/data.service';
-import { switchMap, tap } from 'rxjs';
+import {Account, Balance, Operation} from "../model";
+import {switchMap, tap} from "rxjs";
+import {DataService} from "../services/data.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-add-operation',
-  templateUrl: './add-operation.component.html',
-  styleUrls: ['./add-operation.component.scss']
+  selector: 'app-edit-operation',
+  templateUrl: './edit-operation.component.html',
+  styleUrls: ['./edit-operation.component.scss']
 })
-export class AddOperationComponent implements OnInit {
+export class EditOperationComponent implements OnInit {
 
+  operation: Operation
   operationTypesMap: Map<string, string>
   operationTypesKeys: string[]
-  isTypeSelected = false
   operationType: string
+  isTypeSelected = false
   balance: Balance
-  selectedAccount: string
-  hasErrors = false
-  messageError: string
   fromAccount: Account
   toAccount: Account
-  operation = new Operation()
   constructor(private dataService: DataService,
-    private route: ActivatedRoute,
-              private router: Router) {
-  }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.operationTypesMap = this.dataService.getOperationTypes()
@@ -36,7 +32,7 @@ export class AddOperationComponent implements OnInit {
         this.dataService.getBalance(params.get('balanceId'))),
       tap(balance => this.balance = balance)
     )
-    .subscribe()
+      .subscribe()
   }
 
   selectType(event) {
@@ -85,27 +81,4 @@ export class AddOperationComponent implements OnInit {
     return passiveAccounts
   }
 
-  onSubmit() {
-    if (!this.operation.to || !this.operation.from){
-      this.hasErrors = true
-      this.messageError = 'Musisz wybrać konta!'
-    }
-    else if (this.operation.from === this.operation.to) {
-      this.hasErrors = true
-      this.messageError = 'Nie można wybrać dwóch takich samych kont!'
-    }
-    else if ( +this.operation.amount <= 0){
-      this.hasErrors = true
-      this.messageError = 'Kwota musi być większa niż 0!'
-    }
-    else if(!this.operation.amount){
-      this.hasErrors = true
-      this.messageError = 'Musisz podać kwotę!'
-    }
-    else {
-      this.dataService.addOperation(this.operation, this.balance._id).subscribe()
-      console.log(this.operation)
-      this.router.navigate([`balance/${this.balance._id}`])
-    }
-  }
 }

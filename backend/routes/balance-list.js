@@ -48,14 +48,14 @@ router.route('/add').post(async (req,res) => {
         let currentAccount = await Account.findById(account._id)
         currentAccount.initialBalance = account.initialBalance
         currentAccount.save()
-      await updateAccount(account._id, account.initialBalance
+      await updateAccount(account._id, account.initialBalance)
     })
     req.body.accountsPassive.forEach(async account =>{
         newBalance.accountsPassive.push(account)
         let currentAccount = await Account.findById(account._id)
         currentAccount.initialBalance = account.initialBalance
         currentAccount.save()
-        await updateAccount(account._id, account.initialBalance
+        await updateAccount(account._id, account.initialBalance)
     })
 
 //     await newBalance.accountsActive.reduce(async (promise, account) => {
