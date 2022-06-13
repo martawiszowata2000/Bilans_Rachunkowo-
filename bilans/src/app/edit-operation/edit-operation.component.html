@@ -3,21 +3,12 @@
         class="btn btn-secondary btn-sm rounded-3">
   Anuluj
 </button>
-<button type="button"
-        class="btn btn-success btn-sm rounded-3 float-end">
-  Zapisz
-</button>
 
+<form (ngSubmit)="onSubmit()">
 <div class="row text-center mb-4">
   <h1>Operacja</h1>
-  <h6>Typ</h6>
-  <select class="form-select" (change)="selectType($event)"
-          #type="ngModel" [(ngModel)]="operation.operationType" name="type">
-    <option selected value="" disabled>Wybierz typ operacji</option>
-    <option *ngFor="let typeKey of getTypesKeys()"
-            [selected]="typeKey === operationType"
-            [value]="typeKey">{{ getType(typeKey) }}</option>
-  </select>
+  <h6>{{ getOperationType()}}</h6>
+
   <table class="table">
     <thead>
     <tr>
@@ -29,13 +20,22 @@
     </thead>
     <tbody>
     <tr>
-      <td> {{ operation.amount }} </td>
-<!--      <td>{{ accountFrom.name }}</td>-->
-<!--      <td>{{ accountTo.name }}</td>-->
-<!--      <td>{{ getOperationDate() }}</td>-->
+      <td><input type="number" class="form-control" id="amount"
+                 placeholder="{{operation.amount}}" [(ngModel)]="operation.amount"
+                 #amount="ngModel" id="amount" name="amount"
+                 min="1" required>
+      <div *ngIf="hasErrors">
+        <span class="error-message">{{messageError}}</span>
+      </div></td>
+      <td>{{ fromAccount.name }}</td>
+      <td>{{ toAccount.name }}</td>
+      <td>{{ getOperationDate() }}</td>
     </tr>
     </tbody>
   </table>
-
-
 </div>
+  <button type="submit"
+          class="btn btn-success btn-sm rounded-3 float-end">
+    Zapisz
+  </button>
+</form>
