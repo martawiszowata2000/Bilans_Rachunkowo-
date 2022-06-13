@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Account, Balance, Operation} from "../model";
-import {switchMap, tap} from "rxjs";
+import {map, switchMap, tap} from "rxjs";
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -19,9 +19,13 @@ export class EditOperationComponent implements OnInit {
   balance: Balance
   fromAccount: Account
   toAccount: Account
+  hasErrors = false
+  messageError: string
+
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.operationTypesMap = this.dataService.getOperationTypes()
@@ -33,6 +37,16 @@ export class EditOperationComponent implements OnInit {
       tap(balance => this.balance = balance)
     )
       .subscribe()
+    this.route.paramMap.pipe(
+      map(params => { return params.get('operationId')}),
+      switchMap(id => this.dataService.getOperationById(id)),
+      tap(operation => {
+        this.operation = operation
+        this.dataService.getAccountById(this.operation.from).subscribe(acc => this.fromAccount = acc)
+        this.dataService.getAccountById(this.operation.to).subscribe(acc => this.toAccount = acc)
+
+      })
+    ).subscribe()
   }
 
   selectType(event) {
@@ -41,7 +55,7 @@ export class EditOperationComponent implements OnInit {
   }
 
   selectFrom(event) {
-    if(this.operationType === 'passive')
+    if (this.operationType === 'passive')
       this.fromAccount = this.getPassiveAccounts().find(el =>
         el.name == event.target.value)
     else
@@ -50,7 +64,7 @@ export class EditOperationComponent implements OnInit {
   }
 
   selectTo(event) {
-    if(this.operationType === 'active')
+    if (this.operationType === 'active')
       this.toAccount = this.getActiveAccounts().find(el =>
         el.name == event.target.value)
     else
@@ -81,4 +95,38 @@ export class EditOperationComponent implements OnInit {
     return passiveAccounts
   }
 
+  getOperationDate(){
+    return new Date(this.operation.createdAt)
+      .toLocaleString("pl-PL", {dateStyle: 'medium', timeStyle:'short'})
+  }
+
+  getOperationType(){
+    switch (this.operation.operationType) {
+      case 'active':
+        return 'aktywna'
+      case 'passive':
+        return 'pasywna'
+      case 'active_passive_up':
+        return 'aktywno-pasywna zwiększająca'
+      case 'active_passive_down':
+        return 'aktywno-pasywna zmniejszająca'
+      default:
+        return 'typ operacji nieznany'
+    }
+  }
+
+  onSubmit() {
+    if (+this.operation.amount <= 0) {
+      this.hasErrors = true
+      this.messageError = 'Kwota musi być większa niż 0!'
+    } else if (!this.operation.amount) {
+      this.hasErrors = true
+      this.messageError = 'Musisz podać kwotę!'
+    } else {
+      this.dataService.updateOperation(this.operation, this.balance._id).subscribe()
+      console.log(this.operation)
+      this.router.navigate([`balance/${this.balance._id}`])
+    }
+
+  }
 }
