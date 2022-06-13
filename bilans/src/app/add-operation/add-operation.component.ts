@@ -103,6 +103,7 @@ export class AddOperationComponent implements OnInit {
       this.messageError = 'Musisz podać kwotę!'
     }
     else {
+      this.operation.createdAt = new Date()
       this.dataService.addOperation(this.operation, this.balance._id).subscribe()
       console.log(this.operation)
       this.router.navigate([`balance/${this.balance._id}`])
