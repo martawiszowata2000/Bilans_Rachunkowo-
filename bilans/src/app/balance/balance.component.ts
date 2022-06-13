@@ -60,6 +60,13 @@ export class BalanceComponent implements OnInit {
   deleteBalance() {
     this.dataService.deleteBalance(this.balance).subscribe(_ =>
       this.router.navigate(['/list']) )
+  }
 
+  getSumActive() {
+    return this.balance?.sumActive
+  }
+
+  getSumPassive() {
+    return this.balance?.sumPassive
   }
 }

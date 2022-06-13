@@ -28,8 +28,9 @@ router.route('/add/:balanceId').post(async (req, res) => {
     accountFrom.credit.push(newOperation)
     accountTo.debit.push(newOperation)
 
-    accountTo.save()
-    accountFrom.save()
+    // balance.accountsActive.find(account => account._id === accountFrom._id)
+    // accountTo.save()
+    // accountFrom.save()
     updateBalanceAccounts(req.params.balanceId)
     balance.save()
     newOperation.save()
@@ -44,19 +45,21 @@ router.route('/update/:operationId').put((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-router.route('/delete/:operationId').delete((req, res) => {
-    Operation.findByIdAndDelete(req.params.operationId)
-        .then(() => { res.json('Operation deleted!')})
+router.route('/delete/:balanceId/:accountId/:operationId').delete((req, res) => {
+    const balance = Balance.findById(req.params.balanceId)
+    const account = balance.accountsActive.find(account => account._id === req.params.accountId) || 
+        balance.accountsPassive.find(account => account._id === req.params.accountId)
+    console.log(account)
+    account.debit = account.debit.filter(op => op._id !== req.params.operationId)
+    account.credit = account.credit.filter(op => op._id !== req.params.operationId)
+
+    balance.accountsActive.find(account => account._id === req.params.accountId) ?
+    balance.accountsActive.find(account => account._id === req.params.accountId) = account
+    : balance.accountsPassive.find(account => account._id === req.params.accountId) = account
+
+    balance.save()
+        .then(() => res.json("Operation deleted!"))
         .catch(err => res.status(400).json('Error' + err))
-
-    //to sie pozniej doda bo z tego co czytalam to mongodb chyba nie wspiera kaskadowego usuwania :<<<
-    // Account.debit.findByIdAndDelete(req.params.operationId)
-    //     .then(() => { res.json('Operation deleted!')})
-    //     .catch(err => res.status(400).json('Error' + err))
-    // Account.credit.findByIdAndDelete(req.params.operationId)
-    //     .then(() => { res.json('Operation deleted!')})
-    //     .catch(err => res.status(400).json('Error' + err))
-
 })
 
 async function  updateBalanceAccounts(balanceId) {
