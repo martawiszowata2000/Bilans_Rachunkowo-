@@ -23,7 +23,8 @@ export class DataService {
     'active_passive_down',
   ]
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   private url(path: string) {
     return `http://localhost:5000/${path}`
@@ -37,7 +38,7 @@ export class DataService {
     return this.http.get<Balance>(this.url(`balanceList/${id}`))
   }
 
-  getSchema(): Observable<Balance>{
+  getSchema(): Observable<Balance> {
     return this.http.get<Balance>(this.url(`balanceList/getSchema`))
   }
 
@@ -49,7 +50,7 @@ export class DataService {
   //   return this.http.put<Balance>(this.url(`balanceList/${balance._id}`), balance)
   // }
 
-  deleteBalance(balance: Balance): Observable<string>{
+  deleteBalance(balance: Balance): Observable<string> {
     return this.http.delete<string>(this.url(`balanceList/delete/${balance._id}`))
   }
 
@@ -69,4 +70,11 @@ export class DataService {
     return this.operationTypesKeys
   }
 
+  getOperationById(id: string): Observable<Operation> {
+    return this.http.get<Operation>(this.url(`operations/${id}`))
+  }
+
+  deleteOperation(operation: Operation): Observable<string> {
+    return this.http.delete<string>(this.url(`/delete/${operation._id}`))
+  }
 }

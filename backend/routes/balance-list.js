@@ -42,12 +42,14 @@ router.route('/add').post(async (req,res) => {
         {name,date,sumAct,sumPas,currency, accountsDefault, accountsDefault}
     )
     req.body.accountsActive.forEach(async account => {
+
         account.balance = account.initialBalance
         newBalance.accountsActive.push(new Account(account))
     })
     req.body.accountsPassive.forEach(async account =>{
         account.balance = account.initialBalance
         newBalance.accountsPassive.push(new Account(account))
+
     })
 
     newBalance.accountsActive.forEach(account => {

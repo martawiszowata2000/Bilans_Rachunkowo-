@@ -57,7 +57,7 @@ export class BalanceItem{ //konto bilansowe
 export class Operation { //operacja bilansowa
     constructor(
         _id?: number,
-        type?: string,
+        operationType?: string,
         createdAt?: Date,
         amount?: number,
         from?: string,
@@ -66,7 +66,7 @@ export class Operation { //operacja bilansowa
 }
 export interface Operation {
     _id: number,
-    type: string,
+    operationType: string,
     createdAt: Date,
     amount: number,
     from: string,

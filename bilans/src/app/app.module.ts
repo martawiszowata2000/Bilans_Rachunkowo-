@@ -16,7 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
-import { OperationComponent } from './operation/operation.component'
+import { OperationComponent } from './operation/operation.component';
+import { EditOperationComponent } from './edit-operation/edit-operation.component'
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { OperationComponent } from './operation/operation.component'
     BalanceComponent,
     AddOperationComponent,
     AddBalanceComponent,
-    OperationComponent
+    OperationComponent,
+    EditOperationComponent
   ],
   imports: [
     BrowserModule,

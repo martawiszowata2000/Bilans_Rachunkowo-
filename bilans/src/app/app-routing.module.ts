@@ -6,6 +6,7 @@ import { BalanceComponent } from './balance/balance.component';
 import { AddOperationComponent } from './add-operation/add-operation.component';
 import {AddBalanceComponent} from "./add-balance/add-balance.component";
 import { OperationComponent } from './operation/operation.component';
+import {EditOperationComponent} from "./edit-operation/edit-operation.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'balance/:balanceId/newOperation', component: AddOperationComponent },
   { path: 'balance/:balanceId/account/:accountId', component: AccountBalanceComponent },
   { path: 'balance/:balanceId/account/:accountId/operation/:operationId', component: OperationComponent },
+  { path: 'balance/:balanceId/account/:accountId/operation/:operationId/editOperation', component: EditOperationComponent },
 ];
 
 @NgModule({

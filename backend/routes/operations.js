@@ -21,16 +21,33 @@ router.route('/add/:balanceId').post(async (req, res) => {
     const to = req.body.to
     const amount = req.body.amount
     const newOperation = new Operation({operationType, from, to, amount})
+
+
     const balance = await Balance.findById(req.params.balanceId)
-    const accountFrom = await Account.findById(from)
-    const accountTo = await Account.findById(to)
+    //accountFrom.credit.push(newOperation)
+    //accountTo.debit.push(newOperation)
 
-    accountFrom.credit.push(newOperation)
-    accountTo.debit.push(newOperation)
+    //jesli konto 'z' jest aktywne
+    if (newOperation.operationType === 'active' || newOperation.operationType === 'active_passive_down') {
+        const accountFrom = balance.accountActive.findById(from)
+        balance.accountsActive.accountFrom.credit.push(newOperation)
+    }
+    //jesli konto 'z' jest pasywne
+    else{
+        const accountFrom = balance.accountPassive.findById(from)
+        balance.accountsPassive.accountFrom.credit.push(newOperation)
+    }
+    //jesli konto 'do' jest aktywne
+    if(newOperation.operationType === 'active' || newOperation.operationType === 'active_passive_up'){
+        const accountTo = balance.accountActive.findById(to)
+        balance.accountsActive.accountTo.debit.push(newOperation)
+    }
+    //jesli konto 'do' jest pasywne
+    else{
+        const accountTo = balance.accountPassive.findById(to)
+        balance.accountsPassive.accountTo.debit.push(newOperation)
+    }
 
-    // balance.accountsActive.find(account => account._id === accountFrom._id)
-    // accountTo.save()
-    // accountFrom.save()
     updateBalanceAccounts(req.params.balanceId)
     balance.save()
     newOperation.save()
@@ -45,7 +62,49 @@ router.route('/update/:operationId').put((req, res) => {
         .catch(err => res.status(400).json('Error' + err))
 })
 
-router.route('/delete/:balanceId/:accountId/:operationId').delete((req, res) => {
+// router.route('/delete/:operationId').delete(async (req, res) => {
+//     const operation = Operation.findByIdAndDelete(req.params.operationId)
+//         .then(() => {
+//             res.json('Operation deleted!')
+//         })
+//         .catch(err => res.status(400).json('Error' + err))
+
+//     //jesli konto 'z' jest aktywne
+//     if (operation.operationType === 'active' || operation.operationType === 'active_passive_down') {
+//         const accountFrom = await Account.findById(operation.from)
+//         accountFrom.credit.findByIdAndDelete(req.params.operationId)
+//         accountFrom.save()
+
+
+//         // Account.debit.findByIdAndDelete(req.params.operationId)
+//         //     .then(() => {
+//         //         res.json('Operation deleted!')
+//         //     })
+//         //     .catch(err => res.status(400).json('Error' + err))
+//     }
+//     //jesli konto 'z' jest pasywne
+//     else {
+//         const accountFrom = await Account.findById(operation.from)
+//         accountFrom.debit.findByIdAndDelete(req.params.operationId)
+//         accountFrom.save()
+//     }
+//     //jesli konto 'do' jest aktywne
+//     if(operation.operationType === 'active' || operation.operationType === 'active_passive_up'){
+//         const accountTo = await Account.findById(operation.to)
+//         accountTo.debit.findByIdAndDelete(req.params.operationId)
+//         accountTo.save()
+//     }
+//     //jesli konto 'do' jest pasywne
+//     else {
+//         const accountTo = await Account.findById(operation.to)
+//         accountTo.debit.findByIdAndDelete(req.params.operationId)
+//         accountTo.save()
+    }
+        // Account.credit.findByIdAndDelete(req.params.operationId)
+    //     .then(() => { res.json('Operation deleted!')})
+    //     .catch(err => res.status(400).json('Error' + err))
+
+    router.route('/delete/:balanceId/:accountId/:operationId').delete((req, res) => {
     const balance = Balance.findById(req.params.balanceId)
     const account = balance.accountsActive.find(account => account._id === req.params.accountId) || 
         balance.accountsPassive.find(account => account._id === req.params.accountId)
