@@ -105,8 +105,10 @@ export class AddOperationComponent implements OnInit {
     else {
       this.operation.createdAt = new Date()
       this.dataService.addOperation(this.operation, this.balance._id).subscribe()
-      console.log(this.operation)
-      this.router.navigate([`balance/${this.balance._id}`])
+      setTimeout(() => {
+        this.router.navigate([`balance/${this.balance._id}`])
+        
+      }, 3000);
     }
   }
 }

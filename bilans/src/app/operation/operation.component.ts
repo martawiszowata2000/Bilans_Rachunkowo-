@@ -69,7 +69,7 @@ export class OperationComponent implements OnInit {
   }
 
   deleteOperation(){
-    this.dataService.deleteOperation(this.operation).subscribe( _ =>
+    this.dataService.deleteOperation(this.balance, this.account, this.operation).subscribe( _ =>
       this.router.navigate(["../../"]))
   }
 
