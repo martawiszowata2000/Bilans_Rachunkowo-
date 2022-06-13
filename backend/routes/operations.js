@@ -70,19 +70,13 @@ router.route('/update/:operationId').put(async (req, res) => {
     const to = req.body.operation.to
     const amount = req.body.operation.amount
     const operation = req.body.operation
-
-    console.log(balance)
-    console.log(operation)
-    console.log(operationType)
     //jesli konto 'z' jest aktywne
     if (operationType === 'active' || operationType === 'active_passive_down') {
         balance.accountsActive.map(account => {
             if(account._id.toString() == from){
-                account.credit.map(op => {
-                    if(op._id.toString() == operation._id){
-                        return op
-                    }
-                })
+                const index = account.credit.findIndex(op => op._id.toString() == req.params.operationId)
+                account.credit[index] = operation
+             return account
             }
         })
     }
@@ -90,11 +84,9 @@ router.route('/update/:operationId').put(async (req, res) => {
     else {
         balance.accountsPassive.map(account => {
             if(account._id.toString() == from){
-                account.credit.map(op => {
-                    if(op._id.toString() == operation._id){
-                        return op
-                    }
-                })
+                const index = account.credit.findIndex(op => op._id.toString() == req.params.operationId)
+                account.credit[index] = operation
+                return account
             }
         })
     }
@@ -102,11 +94,9 @@ router.route('/update/:operationId').put(async (req, res) => {
     if(operationType === 'active' || operationType === 'active_passive_up'){
         balance.accountsActive.map(account => {
             if(account._id.toString() == to){
-                account.debit.map(op => {
-                    if(op._id.toString() == operation._id){
-                        return op
-                    }
-                })
+                const index = account.debit.findIndex(op => op._id.toString() == req.params.operationId)
+                account.debit[index] = operation
+                return account
             }
         })
     }
@@ -114,17 +104,15 @@ router.route('/update/:operationId').put(async (req, res) => {
     else{
         balance.accountsPassive.map(account => {
             if(account._id.toString() == to){
-                account.debit.map(op => {
-                    if(op._id.toString() == operation._id){
-                        return op
-                    }
-                })
+                const index = account.debit.findIndex(op => op._id.toString() == req.params.operationId)
+                   account.debit[index] = operation
+                   return account
             }
         })
     }
 
     balance = updateBalanceAccounts(balance)
-    Balance.findByIdAndUpdate(balance._id.toString(), balance)
+    Balance.findByIdAndUpdate(req.body.balanceId.toString(), balance)
         .then((res.json(balance)))
         .catch(err => res.status(400).json('Error' + err))
 })
