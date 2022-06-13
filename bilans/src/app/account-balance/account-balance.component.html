@@ -20,7 +20,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let operation of getOperationsCredit()"
+              <tr *ngFor="let operation of getOperationsDebit()"
                 (click)="goToOperationDetails(operation)">
                 <td>
                     {{ getOperationAmount(operation) }}
@@ -40,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let operation of getOperationsDebit()"
+              <tr *ngFor="let operation of getOperationsCredit()"
                 (click)="goToOperationDetails(operation)">
                 <td>
                     {{ getOperationAmount(operation) }}
